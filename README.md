@@ -1,139 +1,146 @@
-# RouteNest
+# 🗺️ RouteNest
 
-RouteNest is a minimal React + TypeScript application powered by [Vite](https://vitejs.dev/). It provides a fast development experience with Hot Module Replacement (HMR), modern linting, and a simple project structure.
+**RouteNest** is a modern route-planning web app designed for travelers, bikers, and road trip enthusiasts. Plan custom routes on an interactive map, save your journeys, and revisit them anytime.
 
-## Features
+Built with **React + Vite**, styled with **Material UI**, and powered by **Leaflet + OpenStreetMap** for dynamic, open-source mapping.
 
-- ⚡️ Fast development with Vite
-- ⚛️ React 19 with TypeScript
-- 🔥 HMR for instant updates
-- 🧹 ESLint integration with recommended rules
-- 📦 Minimal dependencies
+---
 
-## Getting Started
+## 🚀 Features
 
-### Prerequisites
+- 🗺️ Interactive map powered by Leaflet + OpenStreetMap
+- 🧭 Route planning with multi-point waypoints
+- 💾 Save and organize routes by name or tags
+- 🔁 Revisit and visualize saved routes anytime
+- 📍 Add notes, names, and details to each trip
+- 🤝 Shareable route previews
+- 🏍️ Optimized for motorbike tours and custom trip planning
 
-- [Node.js](https://nodejs.org/) (v18+ recommended)
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+---
 
-### Installation
+## ⚙️ Tech Stack
 
-```sh
+| Layer        | Technology                         |
+| ------------ | ---------------------------------- |
+| Frontend     | React + TypeScript + Vite          |
+| UI Framework | Material UI (MUI)                  |
+| Mapping      | Leaflet + Leaflet Routing Machine  |
+| Map Source   | OpenStreetMap                      |
+| State Mgmt   | React Context / Zustand (optional) |
+| Storage      | LocalStorage (optional backend)    |
+
+---
+
+## 📦 Setup & Installation
+
+### 1. Clone the project
+
+```bash
+git clone https://github.com/yourusername/routenest.git
+cd routenest
+```
+
+### 2. Install dependencies
+
+```bash
 npm install
 ```
 
-### Development
+### 3. Start development server
 
-Start the development server:
-
-```sh
+```bash
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) to view the app.
+Visit: `http://localhost:5173`
 
-### Build
+---
 
-To build for production:
-
-```sh
-npm run build
-```
-
-### Preview
-
-To preview the production build:
-
-```sh
-npm run preview
-```
-
-### Lint
-
-To run ESLint:
-
-```sh
-npm run lint
-```
-
-## Project Structure
+## 📁 Project Structure
 
 ```
-route-nest/
-├── public/
-├── src/
-│   ├── App.tsx
-│   ├── main.tsx
-│   ├── index.css
-│   └── assets/
-├── package.json
-├── tsconfig.json
-├── vite.config.ts
-└── README.md
+src/
+├── components/       # Reusable UI & map widgets (Material UI + Leaflet)
+├── pages/            # Route-based views (Home, Planner, Saved)
+├── types/            # TypeScript types and interfaces
+├── hooks/            # Custom React hooks (e.g., useLocalStorage)
+├── utils/            # Utility functions (e.g., route formatting)
+├── context/          # App-level state (routes, settings)
+├── App.tsx           # Main shell
+└── main.tsx          # Vite entry point
 ```
 
-## ESLint Configuration
+---
 
-The project uses [typescript-eslint](https://typescript-eslint.io/) and recommended React rules. For production, consider enabling type-aware lint rules as described below:
+## 🧪 Scripts
 
-```js
-export default tseslint.config([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+npm run dev       # Start local dev server
+npm run build     # Build for production
+npm run preview   # Preview production build
+npm run lint      # Lint with ESLint
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+## 🧭 Roadmap
 
-export default tseslint.config([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+- [x] Create route with waypoints
+- [x] Visualize route on Leaflet map
+- [x] Save routes locally with metadata
+- [ ] Add route notes, photos
+- [ ] User authentication (optional backend)
+- [ ] Cloud sync and multi-device support
+- [ ] Export route to GPX / KML
+- [ ] Mobile-first responsive UI
+
+---
+
+## 🛠 Dependencies (core)
+
+```json
+"dependencies": {
+  "leaflet": "^1.9.x",
+  "leaflet-routing-machine": "^3.2.x",
+  "@mui/material": "^5.x",
+  "@emotion/react": "^11.x",
+  "@emotion/styled": "^11.x",
+  "react-leaflet": "^4.x",
+  "react-router-dom": "^6.x"
+}
 ```
 
-## License
+---
 
-This project is licensed under the MIT License.
+## 🌐 Demo
+
+> 🚧 Coming soon: [https://routenest.app](https://routenest.app)
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 🧑‍💻 Contributing
+
+Contributions are welcome!  
+Please open an issue or submit a pull request. For larger features, start a discussion first.
+
+---
+
+## 🙌 Acknowledgments
+
+- [React](https://reactjs.org)
+- [Leaflet.js](https://leafletjs.com)
+- [OpenStreetMap](https://www.openstreetmap.org)
+- [Material UI](https://mui.com)
+- [Vite](https://vitejs.dev)
+
+---
+
+## 👤 Author
+
+**RouteNest** — built with ❤️ by Harry
