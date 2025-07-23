@@ -18,22 +18,60 @@ export interface Stop {
 
 interface TripSidebarProps {
   stops: Stop[];
+  onStopClick?: (lat: number, lng: number) => void;
+  onViewAllClick?: () => void;
 }
 
-const TripSidebar: React.FC<TripSidebarProps> = ({ stops }) => (
+const TripSidebar: React.FC<TripSidebarProps> = ({
+  stops,
+  onStopClick,
+  onViewAllClick,
+}) => (
   <Box
     sx={{ width: { xs: "80vw", sm: 300 }, maxWidth: 360, p: { xs: 1, sm: 2 } }}
   >
-    <Typography variant="h6" gutterBottom sx={{ fontSize: { xs: 18, sm: 22 } }}>
-      Trip Stops
-    </Typography>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        mb: 1,
+      }}
+    >
+      <Typography variant="h6" sx={{ fontSize: { xs: 18, sm: 22 } }}>
+        Trip Stops
+      </Typography>
+      {onViewAllClick && (
+        <Typography
+          onClick={onViewAllClick}
+          sx={{
+            color: "primary.main",
+            cursor: "pointer",
+            fontSize: { xs: 14, sm: 16 },
+            "&:hover": { textDecoration: "underline" },
+          }}
+        >
+          View All
+        </Typography>
+      )}
+    </Box>
     <Divider />
     <List>
       {stops.map((stop, index) => (
         <ListItem
           key={stop.id}
           alignItems="flex-start"
-          sx={{ px: { xs: 1, sm: 2 }, py: { xs: 1, sm: 1 } }}
+          onClick={() => onStopClick?.(stop.lat, stop.lng)}
+          sx={{
+            px: { xs: 1, sm: 2 },
+            py: { xs: 1, sm: 1 },
+            cursor: onStopClick ? "pointer" : "default",
+            "&:hover": onStopClick
+              ? {
+                  bgcolor: "action.hover",
+                }
+              : {},
+          }}
         >
           <ListItemText
             primary={

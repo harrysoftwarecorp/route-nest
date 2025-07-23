@@ -1,15 +1,21 @@
 import React, { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "leaflet-routing-machine";
+import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import { Box } from "@mui/material";
 import type { Stop } from "./TripSidebar";
 
 interface TripMapProps {
   stops: Stop[];
   routes: number[][][];
+  onMapReady?: (controls: {
+    focusStop: (lat: number, lng: number) => void;
+    focusAllStops: () => void;
+  }) => void;
 }
 
-const TripMap: React.FC<TripMapProps> = ({ stops, routes }) => {
+const TripMap: React.FC<TripMapProps> = ({ stops, routes, onMapReady }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const leafletMapRef = useRef<L.Map | null>(null);
   // Markers and polylines refs for cleanup
@@ -20,11 +26,35 @@ const TripMap: React.FC<TripMapProps> = ({ stops, routes }) => {
     if (!mapRef.current) return;
     if (!leafletMapRef.current) {
       leafletMapRef.current = L.map(mapRef.current, {
-        center: [39.5, -75.0],
-        zoom: 6,
+        center: [10.7952, 106.7219], // Center on HCMC
+        zoom: 12,
         zoomControl: true,
         attributionControl: false,
       });
+
+      // Expose map control functions
+      if (onMapReady) {
+        onMapReady({
+          focusStop: (lat: number, lng: number) => {
+            leafletMapRef.current?.setView([lat, lng], 16, {
+              animate: true,
+              duration: 1,
+            });
+          },
+          focusAllStops: () => {
+            if (stops.length > 0) {
+              const bounds = L.latLngBounds(
+                stops.map((s) => [s.lat, s.lng] as [number, number])
+              );
+              leafletMapRef.current?.fitBounds(bounds, {
+                padding: [40, 40],
+                animate: true,
+                duration: 1,
+              });
+            }
+          },
+        });
+      }
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -69,14 +99,30 @@ const TripMap: React.FC<TripMapProps> = ({ stops, routes }) => {
       marker.addTo(map);
       markerRefs.current.push(marker);
     });
-    // Add polylines
-    routes.forEach((route) => {
-      // Ensure each point is a LatLngTuple (2-element array)
-      const latLngs = route.map((pt) => [pt[0], pt[1]] as [number, number]);
-      const polyline = L.polyline(latLngs, { color: "#1976d2", weight: 5 });
-      polyline.addTo(map);
-      polylineRefs.current.push(polyline);
-    });
+    // Add road-based routing between consecutive stops
+    for (let i = 0; i < stops.length - 1; i++) {
+      const start = stops[i];
+      const end = stops[i + 1];
+      const routingControl = L.Routing.control({
+        waypoints: [L.latLng(start.lat, start.lng), L.latLng(end.lat, end.lng)],
+        show: false,
+        addWaypoints: false,
+        draggableWaypoints: false,
+        fitSelectedRoutes: false,
+        lineOptions: {
+          styles: [
+            { color: "#000000", opacity: 0.4, weight: 9 }, // Black outline for contrast
+            { color: "#FF3D00", opacity: 1, weight: 6 }, // Bright orange core
+            { color: "#FFFF00", opacity: 0.8, weight: 2 }, // Yellow center line for glow effect
+          ],
+        },
+        routeWhileDragging: false,
+        createMarker: () => null, // Don't create default markers
+      }).addTo(map);
+
+      // Store reference for cleanup
+      polylineRefs.current.push(routingControl as any);
+    }
     // Fit map to all stops
     if (stops.length > 0) {
       const bounds = L.latLngBounds(
@@ -87,9 +133,14 @@ const TripMap: React.FC<TripMapProps> = ({ stops, routes }) => {
     // Touch support is native in Leaflet
     return () => {
       markerRefs.current.forEach((m) => m.remove());
-      polylineRefs.current.forEach((p) => p.remove());
+      // Remove routing controls
+      polylineRefs.current.forEach((control: any) => {
+        if (control.remove) {
+          control.remove();
+        }
+      });
     };
-  }, [stops, routes]);
+  }, [stops, routes, onMapReady]);
 
   return (
     <Box

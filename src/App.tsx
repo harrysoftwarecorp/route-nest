@@ -57,7 +57,18 @@ function App() {
     return () => window.removeEventListener("toggleDrawer", toggleDrawer);
   }, []);
 
-  const drawer = trip ? <TripSidebar stops={trip.stops} /> : null;
+  const [mapControls, setMapControls] = useState<{
+    focusStop: (lat: number, lng: number) => void;
+    focusAllStops: () => void;
+  } | null>(null);
+
+  const drawer = trip ? (
+    <TripSidebar
+      stops={trip.stops}
+      onStopClick={mapControls?.focusStop}
+      onViewAllClick={mapControls?.focusAllStops}
+    />
+  ) : null;
 
   return (
     <ThemeProvider theme={theme}>
@@ -84,7 +95,11 @@ function App() {
               </Box>
             )}
             {trip && !loading && !error && (
-              <TripMap stops={trip.stops} routes={trip.routes} />
+              <TripMap
+                stops={trip.stops}
+                routes={trip.routes}
+                onMapReady={setMapControls}
+              />
             )}
           </Box>
           {/* Sidebar/Drawer */}
