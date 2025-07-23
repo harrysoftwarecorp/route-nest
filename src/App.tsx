@@ -1,9 +1,5 @@
 import { useState, useEffect } from "react";
 import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
   Drawer,
   CssBaseline,
   Box,
@@ -11,7 +7,6 @@ import {
   Alert,
   useMediaQuery,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import TripSidebar from "./components/TripSidebar";
 import type { Stop } from "./components/TripSidebar";
@@ -55,63 +50,20 @@ function App() {
     setMobileOpen((prev) => !prev);
   };
 
+  // Listen for drawer toggle events from TripPage
+  useEffect(() => {
+    const toggleDrawer = () => handleDrawerToggle();
+    window.addEventListener("toggleDrawer", toggleDrawer);
+    return () => window.removeEventListener("toggleDrawer", toggleDrawer);
+  }, []);
+
   const drawer = trip ? <TripSidebar stops={trip.stops} /> : null;
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box sx={{ display: "flex", height: "100vh", flexDirection: "column" }}>
-        {/* AppBar for mobile */}
-        {isMobile && (
-          <AppBar
-            position="fixed"
-            sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          >
-            <Toolbar>
-              <IconButton
-                color="inherit"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ mr: 2 }}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="h6" noWrap component="div">
-                RouteNest
-              </Typography>
-            </Toolbar>
-          </AppBar>
-        )}
         <Box sx={{ display: "flex", flex: 1, pt: isMobile ? 7 : 0 }}>
-          {/* Sidebar/Drawer */}
-          {isMobile ? (
-            <Drawer
-              variant="temporary"
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              ModalProps={{ keepMounted: true }}
-              sx={{
-                "& .MuiDrawer-paper": { width: drawerWidth, mt: 7 },
-              }}
-            >
-              {drawer}
-            </Drawer>
-          ) : (
-            <Drawer
-              variant="permanent"
-              open
-              sx={{
-                width: drawerWidth,
-                flexShrink: 0,
-                "& .MuiDrawer-paper": {
-                  width: drawerWidth,
-                  boxSizing: "border-box",
-                },
-              }}
-            >
-              {drawer}
-            </Drawer>
-          )}
           {/* Main content: Map */}
           <Box sx={{ flex: 1, position: "relative", minWidth: 0 }}>
             {loading && (
@@ -135,6 +87,37 @@ function App() {
               <TripMap stops={trip.stops} routes={trip.routes} />
             )}
           </Box>
+          {/* Sidebar/Drawer */}
+          {isMobile ? (
+            <Drawer
+              variant="temporary"
+              anchor="right"
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              ModalProps={{ keepMounted: true }}
+              sx={{
+                "& .MuiDrawer-paper": { width: drawerWidth, mt: 7 },
+              }}
+            >
+              {drawer}
+            </Drawer>
+          ) : (
+            <Drawer
+              variant="permanent"
+              anchor="right"
+              open
+              sx={{
+                width: drawerWidth,
+                flexShrink: 0,
+                "& .MuiDrawer-paper": {
+                  width: drawerWidth,
+                  boxSizing: "border-box",
+                },
+              }}
+            >
+              {drawer}
+            </Drawer>
+          )}
         </Box>
       </Box>
     </ThemeProvider>

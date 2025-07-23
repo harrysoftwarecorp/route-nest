@@ -71,7 +71,7 @@ const TripMap: React.FC<TripMapProps> = ({ stops, routes }) => {
       ref={mapRef}
       sx={{
         width: "100%",
-        height: "100%",
+        height: "100vh",
         touchAction: "manipulation",
         borderRadius: { xs: 2, sm: 0 },
         boxShadow: { xs: 1, sm: 0 },
