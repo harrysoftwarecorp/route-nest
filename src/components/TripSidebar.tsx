@@ -29,14 +29,33 @@ const TripSidebar: React.FC<TripSidebarProps> = ({ stops }) => (
     </Typography>
     <Divider />
     <List>
-      {stops.map((stop) => (
+      {stops.map((stop, index) => (
         <ListItem
           key={stop.id}
           alignItems="flex-start"
           sx={{ px: { xs: 1, sm: 2 }, py: { xs: 1, sm: 1 } }}
         >
           <ListItemText
-            primary={<span style={{ fontSize: 16 }}>{stop.name}</span>}
+            primary={
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Typography
+                  sx={{
+                    width: 24,
+                    height: 24,
+                    borderRadius: "50%",
+                    bgcolor: "primary.main",
+                    color: "white",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 14,
+                  }}
+                >
+                  {index + 1}
+                </Typography>
+                <span style={{ fontSize: 16 }}>{stop.name}</span>
+              </Box>
+            }
             secondary={
               <>
                 <Typography

@@ -37,9 +37,34 @@ const TripMap: React.FC<TripMapProps> = ({ stops, routes }) => {
     markerRefs.current = [];
     polylineRefs.current = [];
     // Add markers
-    stops.forEach((stop) => {
-      const marker = L.marker([stop.lat, stop.lng]).bindPopup(
-        `<b>${stop.name}</b><br/>${new Date(stop.plannedTime).toLocaleString()}`
+    stops.forEach((stop, index) => {
+      // Create custom numbered icon
+      const numberIcon = L.divIcon({
+        className: "custom-number-icon",
+        html: `<div style="
+          background-color: #1976d2;
+          color: white;
+          border-radius: 50%;
+          width: 24px;
+          height: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          font-size: 14px;
+          border: 2px solid white;
+          box-shadow: 0 0 4px rgba(0,0,0,0.3);
+        ">${index + 1}</div>`,
+        iconSize: [24, 24],
+        iconAnchor: [12, 12],
+      });
+
+      const marker = L.marker([stop.lat, stop.lng], {
+        icon: numberIcon,
+      }).bindPopup(
+        `<b>${index + 1}. ${stop.name}</b><br/>${new Date(
+          stop.plannedTime
+        ).toLocaleString()}`
       );
       marker.addTo(map);
       markerRefs.current.push(marker);

@@ -5,13 +5,13 @@ export const fetchTripData = async () => {
   // Mock data (matches requirements)
   return {
     stops: [
-      { id: 1, name: "New York, NY", lat: 40.7128, lng: -74.006, plannedTime: "2025-07-23T09:00:00Z" },
-      { id: 2, name: "Philadelphia, PA", lat: 39.9526, lng: -75.1652, plannedTime: "2025-07-23T12:00:00Z" },
-      { id: 3, name: "Washington, DC", lat: 38.9072, lng: -77.0369, plannedTime: "2025-07-23T15:00:00Z" }
+      { id: 1, name: "Ben Thanh Market", lat: 10.7721, lng: 106.6980, plannedTime: "2025-07-23T09:00:00Z" },
+      { id: 2, name: "Vincom Thu Duc", lat: 10.8501, lng: 106.7559, plannedTime: "2025-07-23T10:30:00Z" },
+      { id: 3, name: "Landmark 81", lat: 10.7952, lng: 106.7219, plannedTime: "2025-07-23T12:00:00Z" }
     ],
     routes: [
-      [[40.7128, -74.006], [40.0, -74.5], [39.9526, -75.1652]],
-      [[39.9526, -75.1652], [39.5, -75.5], [38.9072, -77.0369]]
+      [[10.7721, 106.6980], [10.7836, 106.7270], [10.8501, 106.7559]],
+      [[10.8501, 106.7559], [10.8227, 106.7389], [10.7952, 106.7219]]
     ]
   };
   // For real backend:
