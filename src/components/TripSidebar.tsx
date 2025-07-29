@@ -6,6 +6,7 @@ import {
   ListItem,
   ListItemText,
   Divider,
+  Button,
 } from "@mui/material";
 
 export interface Stop {
@@ -20,12 +21,14 @@ interface TripSidebarProps {
   stops: Stop[];
   onStopClick?: (lat: number, lng: number) => void;
   onViewAllClick?: () => void;
+  toggleForm?: () => void;
 }
 
 const TripSidebar: React.FC<TripSidebarProps> = ({
   stops,
   onStopClick,
   onViewAllClick,
+  toggleForm,
 }) => (
   <Box
     sx={{ width: { xs: "80vw", sm: 300 }, maxWidth: 360, p: { xs: 1, sm: 2 } }}
@@ -115,6 +118,9 @@ const TripSidebar: React.FC<TripSidebarProps> = ({
           />
         </ListItem>
       ))}
+      <Button variant="text" onClick={toggleForm}>
+        Add Stop
+      </Button>
     </List>
   </Box>
 );
