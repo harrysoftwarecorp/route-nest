@@ -13,8 +13,12 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import type { TripSummary } from "../api/mockTripsList";
-import { getTrips, deleteTripById, createTrip } from "../api/tripApi";
+import {
+  getTrips,
+  deleteTripById,
+  createTrip,
+  type TripSummary,
+} from "../api/tripApi";
 
 export const tripLoader = async () => {
   try {

@@ -1,9 +1,10 @@
-import { Box, Drawer, Modal, Typography } from "@mui/material";
+import { Box, Drawer } from "@mui/material";
 import React, { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { getTripById } from "../api/tripApi";
 import TripMap from "../components/TripMap";
 import TripSidebar from "../components/TripSidebar";
+import AddStopDialog from "../components/AddStopDialog";
 
 export const tripDetailLoader = async ({ params }) => {
   const { tripId } = params;
@@ -13,9 +14,7 @@ export const tripDetailLoader = async ({ params }) => {
 
 const TripPage: React.FC = () => {
   const trip = useLoaderData();
-
   const [toggleAddStopForm, setToggleAddStopForm] = useState<boolean>(false);
-
   const [mapControls, setMapControls] = useState<{
     focusStop: (lat: number, lng: number) => void;
     focusAllStops: () => void;
@@ -23,6 +22,16 @@ const TripPage: React.FC = () => {
 
   const toggleForm = () => {
     setToggleAddStopForm(!toggleAddStopForm);
+  };
+
+  const handleAddStop = (stopData: {
+    stopName: string;
+    latitude: number;
+    longitude: number;
+    plannedDateTime: Date;
+  }) => {
+    console.log(stopData);
+    // Add your stop handling logic here
   };
 
   const drawer = trip ? (
@@ -62,33 +71,11 @@ const TripPage: React.FC = () => {
           </Drawer>
         </Box>
       </Box>
-      <Modal
+      <AddStopDialog
         open={toggleAddStopForm}
         onClose={toggleForm}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 400,
-            bgcolor: "background.paper",
-            border: "2px solid #000",
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </Box>
-      </Modal>
+        onSubmit={handleAddStop}
+      />
     </>
   );
 };
