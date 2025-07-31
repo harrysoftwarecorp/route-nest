@@ -1,19 +1,19 @@
 import { Box, Drawer } from "@mui/material";
 import React, { useState } from "react";
-import { useLoaderData } from "react-router-dom";
-import { getTripById } from "../api/tripApi";
+import { useLoaderData, useParams } from "react-router-dom";
+import { getTripById, addStopToTrip, type TripDetail } from "../api/tripApi";
 import TripMap from "../components/TripMap";
 import TripSidebar from "../components/TripSidebar";
 import AddStopDialog from "../components/AddStopDialog";
 
-export const tripDetailLoader = async ({ params }) => {
+export const tripDetailLoader = async ({ params }: { params: any }) => {
   const { tripId } = params;
-  const tripDetail = await getTripById(tripId);
-  return tripDetail;
+  return await getTripById(tripId);
 };
 
 const TripPage: React.FC = () => {
-  const trip = useLoaderData();
+  const trip = useLoaderData() as TripDetail;
+  const { tripId } = useParams();
   const [toggleAddStopForm, setToggleAddStopForm] = useState<boolean>(false);
   const [mapControls, setMapControls] = useState<{
     focusStop: (lat: number, lng: number) => void;
@@ -24,14 +24,26 @@ const TripPage: React.FC = () => {
     setToggleAddStopForm(!toggleAddStopForm);
   };
 
-  const handleAddStop = (stopData: {
+  const handleAddStop = async (stopData: {
     stopName: string;
     latitude: number;
     longitude: number;
     plannedDateTime: Date;
   }) => {
-    console.log(stopData);
-    // Add your stop handling logic here
+    if (!tripId) return;
+
+    try {
+      await addStopToTrip(tripId, {
+        name: stopData.stopName,
+        lat: stopData.latitude,
+        lng: stopData.longitude,
+        plannedTime: stopData.plannedDateTime.toISOString(),
+      });
+      // Refresh page to show new stop
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to add stop:", error);
+    }
   };
 
   const drawer = trip ? (

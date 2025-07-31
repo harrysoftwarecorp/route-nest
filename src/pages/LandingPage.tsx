@@ -37,7 +37,7 @@ const LandingPage: React.FC = () => {
   const [trips, setTrips] = useState(initialTrips);
 
   const handleCreate = async () => {
-    createTrip({ name: newTripName });
+    await createTrip({ name: newTripName });
     const updatedTrips = await getTrips();
     setNewTripName("");
     setTrips(updatedTrips);
@@ -102,8 +102,8 @@ const LandingPage: React.FC = () => {
           </Button>
         </Box>
         <List sx={{ width: "100%" }}>
-          {trips.map((trip) => (
-            <React.Fragment key={trip.id}>
+          {trips.map((trip: TripSummary) => (
+            <React.Fragment key={trip._id}>
               <ListItem
                 component="div"
                 sx={{
@@ -123,13 +123,13 @@ const LandingPage: React.FC = () => {
                       Created: {new Date(trip.createdAt).toLocaleString()}
                     </span>
                   }
-                  onClick={() => navigate(`/trip/${trip.id}`)}
+                  onClick={() => navigate(`/trip/${trip._id}`)}
                 />
                 <IconButton
                   edge="end"
                   aria-label="delete"
                   sx={{ touchAction: "manipulation" }}
-                  onClick={() => handleDelete(trip.id)}
+                  onClick={() => handleDelete(trip._id)}
                 >
                   <DeleteIcon />
                 </IconButton>

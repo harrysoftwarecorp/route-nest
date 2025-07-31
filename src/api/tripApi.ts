@@ -1,28 +1,30 @@
 import axios from "axios";
 
-export interface TripSummary {
-  id: string;
-  name: string;
-  createdAt: string;
-}
-
-export interface TripDetail {
-  stops: Stop[];
-  routes: number[][][];
-}
-
 export interface Stop {
-  id: number;
+  id?: number;
   name: string;
   lat: number;
   lng: number;
   plannedTime: string;
 }
 
+export interface TripSummary {
+  _id: string;
+  name: string;
+  createdAt: string;
+}
+
+export interface TripDetail {
+  _id: string;
+  name: string;
+  createdAt: string;
+  stops: Stop[];
+  routes: number[][][];
+}
+
 export const getTrips = async (): Promise<TripSummary[]> => {
   const response = await axios.get("/api/trips");
-  console.log(response.data)
-  return [...response.data];
+  return response.data;
 }
 
 export const getTripById = async (tripId: string): Promise<TripDetail> => {
@@ -30,12 +32,23 @@ export const getTripById = async (tripId: string): Promise<TripDetail> => {
   return response.data;
 }
 
-export const createTrip = async ({name}): Promise<Response> => {
-  const response = await axios.post(`/api/trips`, {name})
+export const createTrip = async ({name}: {name: string}): Promise<TripDetail> => {
+  const response = await axios.post(`/api/trips`, {
+    name,
+    stops: [],
+    routes: []
+  });
   return response.data;
 }
 
-export const deleteTripById = async (tripId: string): Promise<Response> => {
-  const reponse = await axios.delete(`/api/trips/${tripId}`)
-  return reponse.data;
+export const deleteTripById = async (tripId: string): Promise<void> => {
+  await axios.delete(`/api/trips/${tripId}`);
 }
+
+export const addStopToTrip = async (
+  tripId: string,
+  stop: Stop
+): Promise<TripDetail> => {
+  const response = await axios.put(`/api/trips/${tripId}/stops`, stop);
+  return response.data;
+};
