@@ -51,4 +51,9 @@ export const addStopToTrip = async (
 ): Promise<TripDetail> => {
   const response = await axios.put(`/api/trips/${tripId}/stops`, stop);
   return response.data;
+}
+
+export const deleteStopFromTrip = async (tripId: string, stopId: string): Promise<TripDetail> => {
+  const response = await axios.delete(`/api/trips/${tripId}/stops/${stopId}`);
+  return response.data;
 };

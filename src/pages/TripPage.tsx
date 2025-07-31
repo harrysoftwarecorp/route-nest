@@ -1,7 +1,12 @@
 import { Box, Drawer } from "@mui/material";
 import React, { useState } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
-import { getTripById, addStopToTrip, type TripDetail } from "../api/tripApi";
+import {
+  getTripById,
+  addStopToTrip,
+  deleteStopFromTrip,
+  type TripDetail,
+} from "../api/tripApi";
 import TripMap from "../components/TripMap";
 import TripSidebar from "../components/TripSidebar";
 import AddStopDialog from "../components/AddStopDialog";
@@ -46,12 +51,25 @@ const TripPage: React.FC = () => {
     }
   };
 
+  const handleDeleteStop = async (stopId: string) => {
+    if (!tripId) return;
+
+    try {
+      await deleteStopFromTrip(tripId, stopId);
+      // Refresh page to show updated stops
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to delete stop:", error);
+    }
+  };
+
   const drawer = trip ? (
     <TripSidebar
       stops={trip.stops}
       onStopClick={mapControls?.focusStop}
       onViewAllClick={mapControls?.focusAllStops}
       toggleForm={toggleForm}
+      onDeleteStop={handleDeleteStop}
     />
   ) : null;
 

@@ -7,7 +7,9 @@ import {
   ListItemText,
   Divider,
   Button,
+  IconButton,
 } from "@mui/material";
+import { DeleteOutline } from "@mui/icons-material";
 
 export interface Stop {
   id: number;
@@ -18,10 +20,11 @@ export interface Stop {
 }
 
 interface TripSidebarProps {
-  stops: Stop[];
+  stops: Array<Stop>;
   onStopClick?: (lat: number, lng: number) => void;
   onViewAllClick?: () => void;
-  toggleForm?: () => void;
+  toggleForm: () => void;
+  onDeleteStop: (stopId: string) => void;
 }
 
 const TripSidebar: React.FC<TripSidebarProps> = ({
@@ -29,6 +32,7 @@ const TripSidebar: React.FC<TripSidebarProps> = ({
   onStopClick,
   onViewAllClick,
   toggleForm,
+  onDeleteStop,
 }) => (
   <Box
     sx={{ width: { xs: "80vw", sm: 300 }, maxWidth: 360, p: { xs: 1, sm: 2 } }}
@@ -116,6 +120,17 @@ const TripSidebar: React.FC<TripSidebarProps> = ({
               </>
             }
           />
+          <IconButton
+            size="small"
+            color="error"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDeleteStop(stop.id);
+            }}
+            sx={{ opacity: 0.7 }}
+          >
+            <DeleteOutline fontSize="small" />
+          </IconButton>
         </ListItem>
       ))}
       <Button variant="text" onClick={toggleForm}>
