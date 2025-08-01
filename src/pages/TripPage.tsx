@@ -20,6 +20,11 @@ const TripPage: React.FC = () => {
   const trip = useLoaderData() as TripDetail;
   const { tripId } = useParams();
   const [toggleAddStopForm, setToggleAddStopForm] = useState<boolean>(false);
+  const [clickedCoordinates, setClickedCoordinates] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+
   const [mapControls, setMapControls] = useState<{
     focusStop: (lat: number, lng: number) => void;
     focusAllStops: () => void;
@@ -27,6 +32,17 @@ const TripPage: React.FC = () => {
 
   const toggleForm = () => {
     setToggleAddStopForm(!toggleAddStopForm);
+    // Clear clicked coordinates when manually opening the form
+    if (!toggleAddStopForm) {
+      setClickedCoordinates(null);
+    }
+  };
+
+  const handleMapClick = (lat: number, lng: number) => {
+    // Store the clicked coordinates
+    setClickedCoordinates({ lat, lng });
+    // Open the add stop dialog
+    setToggleAddStopForm(true);
   };
 
   const handleAddStop = async (stopData: {
@@ -44,6 +60,8 @@ const TripPage: React.FC = () => {
         lng: stopData.longitude,
         plannedTime: stopData.plannedDateTime.toISOString(),
       });
+      // Clear clicked coordinates after successful addition
+      setClickedCoordinates(null);
       // Refresh page to show new stop
       window.location.reload();
     } catch (error) {
@@ -61,6 +79,12 @@ const TripPage: React.FC = () => {
     } catch (error) {
       console.error("Failed to delete stop:", error);
     }
+  };
+
+  const handleDialogClose = () => {
+    setToggleAddStopForm(false);
+    // Clear clicked coordinates when dialog is closed
+    setClickedCoordinates(null);
   };
 
   const drawer = trip ? (
@@ -88,7 +112,6 @@ const TripPage: React.FC = () => {
           <Box
             sx={{
               flex: 1,
-              // position: "relative",
               minWidth: 0,
               height: "100%", // Ensure map container takes full height
             }}
@@ -98,6 +121,7 @@ const TripPage: React.FC = () => {
                 stops={trip.stops}
                 routes={trip.routes}
                 onMapReady={setMapControls}
+                onMapClick={handleMapClick} // Pass the map click handler
               />
             )}
           </Box>
@@ -135,8 +159,10 @@ const TripPage: React.FC = () => {
       </Box>
       <AddStopDialog
         open={toggleAddStopForm}
-        onClose={toggleForm}
+        onClose={handleDialogClose}
         onSubmit={handleAddStop}
+        prefilledLat={clickedCoordinates?.lat}
+        prefilledLng={clickedCoordinates?.lng}
       />
     </>
   );
