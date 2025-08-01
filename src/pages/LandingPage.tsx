@@ -56,14 +56,12 @@ const LandingPage: React.FC = () => {
           maxWidth: 480,
           mx: "auto",
           p: { xs: 2, sm: 3 },
-          width: "100%",
         }}
       >
         <Typography
           variant="h5"
           sx={{
-            mt: { xs: 2, sm: 3 },
-            mb: { xs: 2, sm: 3 },
+            pb: { xs: 2, sm: 3 },
             textAlign: "center",
             fontSize: { xs: 24, sm: 28 },
             fontWeight: 600,
