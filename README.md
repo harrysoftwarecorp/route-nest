@@ -1,71 +1,69 @@
 # 🗺️ RouteNest
 
-**RouteNest** is a modern route-planning web app designed for travelers, bikers, and road trip enthusiasts. Plan custom routes on an interactive map, save your journeys, and revisit them anytime.
+**RouteNest** is a modern web application for planning, saving, and sharing custom travel routes. Designed for travelers, bikers, and road trip enthusiasts, it lets you create multi-point journeys on an interactive map, organize your trips, and revisit them anytime.
 
-Built with **React + Vite**, styled with **Material UI**, and powered by **Leaflet + OpenStreetMap** for dynamic, open-source mapping.
+Built with **React + Vite**, styled using **Material UI**, and powered by **Leaflet** and **OpenStreetMap** for dynamic, open-source mapping.
 
 ---
 
 ## 🚀 Features
 
-- 🗺️ Interactive map powered by Leaflet + OpenStreetMap
-- 🧭 Route planning with multi-point waypoints
-- 💾 Save and organize routes by name or tags
-- 🔁 Revisit and visualize saved routes anytime
-- 📍 Add notes, names, and details to each trip
-- 🤝 Shareable route previews
-- 🏍️ Optimized for motorbike tours and custom trip planning
+- Interactive map powered by Leaflet + OpenStreetMap
+- Route planning with multiple waypoints
+- Save and organize routes with names and tags
+- Visualize and revisit saved routes
+- Add notes and details to each trip
+- Share route previews with others
+- Optimized for motorbike tours and custom trip planning
 
 ---
 
 ## ⚙️ Tech Stack
 
-| Layer        | Technology                         |
-| ------------ | ---------------------------------- |
-| Frontend     | React + TypeScript + Vite          |
-| UI Framework | Material UI (MUI)                  |
-| Mapping      | Leaflet + Leaflet Routing Machine  |
-| Map Source   | OpenStreetMap                      |
-| State Mgmt   | React Context / Zustand (optional) |
-| Storage      | LocalStorage (optional backend)    |
+- **Frontend:** React, TypeScript, Vite
+- **UI Framework:** Material UI (MUI)
+- **Mapping:** Leaflet, Leaflet Routing Machine
+- **Map Source:** OpenStreetMap
+- **State Management:** React Context (Zustand optional)
+- **Storage:** LocalStorage (backend integration in progress)
 
 ---
 
-## 📦 Setup & Installation
+## 📦 Getting Started
 
-### 1. Clone the project
+### Prerequisites
+
+- Node.js (v18+ recommended)
+- npm or yarn
+
+### Installation
 
 ```bash
 git clone https://github.com/yourusername/routenest.git
 cd routenest
-```
-
-### 2. Install dependencies
-
-```bash
 npm install
 ```
 
-### 3. Start development server
+### Running the App
 
 ```bash
 npm run dev
 ```
 
-Visit: `http://localhost:5173`
+Visit: [http://localhost:5173](http://localhost:5173)
 
 ---
 
 ## 📁 Project Structure
 
-```
+```text
 src/
-├── components/       # Reusable UI & map widgets (Material UI + Leaflet)
+├── components/       # UI & map widgets (Material UI + Leaflet)
 ├── pages/            # Route-based views (Home, Planner, Saved)
 ├── types/            # TypeScript types and interfaces
-├── hooks/            # Custom React hooks (e.g., useLocalStorage)
-├── utils/            # Utility functions (e.g., route formatting)
-├── context/          # App-level state (routes, settings)
+├── hooks/            # Custom React hooks
+├── utils/            # Utility functions
+├── context/          # App-level state
 ├── App.tsx           # Main shell
 └── main.tsx          # Vite entry point
 ```
@@ -75,28 +73,27 @@ src/
 ## 🧪 Scripts
 
 ```bash
-npm run dev       # Start local dev server
+npm run dev       # Start development server
 npm run build     # Build for production
 npm run preview   # Preview production build
-npm run lint      # Lint with ESLint
+npm run lint      # Lint code
 ```
 
 ---
 
 ## 🧭 Roadmap
 
-- [x] Create route with waypoints
-- [x] Visualize route on Leaflet map
+- [x] Create and visualize routes with waypoints
 - [x] Save routes locally with metadata
-- [ ] Add route notes, photos
-- [ ] User authentication (optional backend)
+- [ ] Add notes and photos to routes
+- [ ] User authentication (backend in progress)
 - [ ] Cloud sync and multi-device support
-- [ ] Export route to GPX / KML
+- [ ] Export routes to GPX/KML
 - [ ] Mobile-first responsive UI
 
 ---
 
-## 🛠 Dependencies (core)
+## 🛠 Core Dependencies
 
 ```json
 "dependencies": {
@@ -114,20 +111,20 @@ npm run lint      # Lint with ESLint
 
 ## 🌐 Demo
 
-> 🚧 Coming soon: [https://routenest.app](https://routenest.app)
+> 🚧 Demo coming soon: [https://routenest.app](https://routenest.app)
 
 ---
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE).
+MIT License
 
 ---
 
 ## 🧑‍💻 Contributing
 
 Contributions are welcome!  
-Please open an issue or submit a pull request. For larger features, start a discussion first.
+Open an issue or submit a pull request. For major changes, please start a discussion first.
 
 ---
 
@@ -140,6 +137,10 @@ Please open an issue or submit a pull request. For larger features, start a disc
 - [Vite](https://vitejs.dev)
 
 ---
+
+## 👤 Author
+
+Built with ❤️ by Harry
 
 ## 👤 Author
 
