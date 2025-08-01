@@ -58,11 +58,15 @@ const AddStopDialog: React.FC<AddStopDialogProps> = ({
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 400,
+          width: { xs: "90%", sm: 400 },
+          maxWidth: "100%",
           bgcolor: "background.paper",
-          border: "2px solid #000",
+          borderRadius: 1,
+          border: { xs: "none", sm: "2px solid #000" },
           boxShadow: 24,
-          p: 4,
+          p: { xs: 2, sm: 4 },
+          maxHeight: { xs: "90vh", sm: "auto" },
+          overflowY: "auto",
         }}
       >
         <Typography variant="h6" component="h2" gutterBottom>
@@ -76,6 +80,11 @@ const AddStopDialog: React.FC<AddStopDialogProps> = ({
             inputRef={stopNameRef}
             margin="normal"
             required
+            sx={{
+              "& .MuiInputBase-input": {
+                fontSize: { xs: "16px", sm: "inherit" },
+              },
+            }}
           />
           <TextField
             fullWidth
@@ -86,6 +95,11 @@ const AddStopDialog: React.FC<AddStopDialogProps> = ({
             margin="normal"
             required
             inputProps={{ step: "any" }}
+            sx={{
+              "& .MuiInputBase-input": {
+                fontSize: { xs: "16px", sm: "inherit" },
+              },
+            }}
           />
           <TextField
             fullWidth
@@ -96,13 +110,24 @@ const AddStopDialog: React.FC<AddStopDialogProps> = ({
             margin="normal"
             required
             inputProps={{ step: "any" }}
+            sx={{
+              "& .MuiInputBase-input": {
+                fontSize: { xs: "16px", sm: "inherit" },
+              },
+            }}
           />
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DateTimePicker
               label="Planned Date & Time"
               value={selectedDate}
               onChange={handleDateChange}
-              sx={{ mt: 2, width: "100%" }}
+              sx={{
+                mt: 2,
+                width: "100%",
+                "& .MuiInputBase-input": {
+                  fontSize: { xs: "16px", sm: "inherit" },
+                },
+              }}
             />
           </LocalizationProvider>
           <Box
@@ -113,10 +138,18 @@ const AddStopDialog: React.FC<AddStopDialogProps> = ({
               gap: 2,
             }}
           >
-            <Button variant="outlined" onClick={onClose}>
+            <Button
+              variant="outlined"
+              onClick={onClose}
+              sx={{ py: { xs: 1.5, sm: 1 } }}
+            >
               Cancel
             </Button>
-            <Button variant="contained" type="submit">
+            <Button
+              variant="contained"
+              type="submit"
+              sx={{ py: { xs: 1.5, sm: 1 } }}
+            >
               Add Stop
             </Button>
           </Box>

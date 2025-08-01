@@ -51,7 +51,7 @@ const TripPage: React.FC = () => {
     }
   };
 
-  const handleDeleteStop = async (stopId: string) => {
+  const handleDeleteStop = async (stopId: number) => {
     if (!tripId) return;
 
     try {
@@ -76,8 +76,23 @@ const TripPage: React.FC = () => {
   return (
     <>
       <Box sx={{ display: "flex", height: "100vh", flexDirection: "column" }}>
-        <Box sx={{ display: "flex", flex: 1, pt: 0 }}>
-          <Box sx={{ flex: 1, position: "relative", minWidth: 0 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flex: 1,
+            pt: 0,
+            position: "relative",
+            height: { xs: "70vh", md: "100%" }, // Adjust height for mobile
+          }}
+        >
+          <Box
+            sx={{
+              flex: 1,
+              // position: "relative",
+              minWidth: 0,
+              height: "100%", // Ensure map container takes full height
+            }}
+          >
             {trip && (
               <TripMap
                 stops={trip.stops}
@@ -86,14 +101,31 @@ const TripPage: React.FC = () => {
               />
             )}
           </Box>
+          {/* Desktop Drawer */}
           <Drawer
             variant="permanent"
             anchor="right"
             open
             sx={{
+              display: { xs: "none", md: "block" },
               flexShrink: 0,
               "& .MuiDrawer-paper": {
                 boxSizing: "border-box",
+              },
+            }}
+          >
+            {drawer}
+          </Drawer>
+          {/* Mobile Drawer */}
+          <Drawer
+            variant="permanent"
+            anchor="bottom"
+            open
+            sx={{
+              display: { xs: "block", md: "none" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                height: "30vh",
               },
             }}
           >

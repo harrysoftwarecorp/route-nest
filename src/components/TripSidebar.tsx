@@ -35,7 +35,11 @@ const TripSidebar: React.FC<TripSidebarProps> = ({
   onDeleteStop,
 }) => (
   <Box
-    sx={{ width: { xs: "80vw", sm: 300 }, maxWidth: 360, p: { xs: 1, sm: 2 } }}
+    sx={{
+      // width: { xs: "80vw", sm: 300 },
+      maxWidth: 360,
+      p: { xs: 1, sm: 2 },
+    }}
   >
     <Box
       sx={{
