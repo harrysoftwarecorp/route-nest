@@ -12,7 +12,7 @@ import {
 import { DeleteOutline } from "@mui/icons-material";
 
 export interface Stop {
-  id: number;
+  id?: number; // Make id optional
   name: string;
   lat: number;
   lng: number;
@@ -24,7 +24,7 @@ interface TripSidebarProps {
   onStopClick?: (lat: number, lng: number) => void;
   onViewAllClick?: () => void;
   toggleForm: () => void;
-  onDeleteStop: (stopId: string) => void;
+  onDeleteStop: (stopId: number) => void;
 }
 
 const TripSidebar: React.FC<TripSidebarProps> = ({
@@ -125,7 +125,10 @@ const TripSidebar: React.FC<TripSidebarProps> = ({
             color="error"
             onClick={(e) => {
               e.stopPropagation();
-              onDeleteStop(stop.id);
+              // Only call delete if we have an ID from the backend
+              if (typeof stop.id === "number") {
+                onDeleteStop(stop.id);
+              }
             }}
             sx={{ opacity: 0.7 }}
           >
