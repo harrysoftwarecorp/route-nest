@@ -1,6 +1,7 @@
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
+  Autocomplete,
   Box,
   Button,
   Divider,
@@ -34,7 +35,7 @@ const LandingPage: React.FC = () => {
   const navigate = useNavigate();
   const initialTrips = useLoaderData();
 
-  const [trips, setTrips] = useState(initialTrips);
+  const [trips, setTrips] = useState<TripSummary[]>(initialTrips);
 
   const handleCreate = async () => {
     await createTrip({ name: newTripName });
@@ -109,6 +110,32 @@ const LandingPage: React.FC = () => {
             Add
           </Button>
         </Box>
+        <Autocomplete
+          freeSolo
+          id="free-solo-2-demo"
+          disableClearable
+          options={initialTrips.map((trip) => trip.name)}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Search trips ..."
+              slotProps={{
+                input: {
+                  ...params.InputProps,
+                  type: "search",
+                },
+              }}
+            />
+          )}
+          onInputChange={(event, value) => {
+            const trip = initialTrips.find((trip) => trip.name === value);
+            if (trip) {
+              setTrips([trip]);
+            } else {
+              setTrips(initialTrips);
+            }
+          }}
+        />
         <List sx={{ width: "100%", gap: { xs: 1.5, sm: 1 } }}>
           {trips.map((trip: TripSummary) => (
             <React.Fragment key={trip._id}>
