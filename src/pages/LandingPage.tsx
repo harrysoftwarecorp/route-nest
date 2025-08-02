@@ -159,7 +159,7 @@ const LandingPage: React.FC = () => {
             </Box>
           ) : (
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              {filteredTrips.slice(0, 3).map((trip) => (
+              {filteredTrips.map((trip) => (
                 <Card
                   key={trip._id}
                   sx={{
