@@ -1,16 +1,18 @@
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import SearchIcon from "@mui/icons-material/Search";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import {
-  Autocomplete,
   Box,
   Button,
-  Divider,
+  Card,
+  CardContent,
+  Chip,
   IconButton,
-  List,
-  ListItem,
-  ListItemText,
+  InputAdornment,
   TextField,
   Typography,
+  Fab,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
@@ -27,179 +29,308 @@ export const tripLoader = async () => {
     return trips;
   } catch (err) {
     console.error("Error get trips", err);
+    return [];
   }
 };
 
 const LandingPage: React.FC = () => {
   const [newTripName, setNewTripName] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showCreateForm, setShowCreateForm] = useState(false);
   const navigate = useNavigate();
-  const initialTrips = useLoaderData();
-
-  const [trips, setTrips] = useState<TripSummary[]>(initialTrips);
+  const initialTrips = useLoaderData() as TripSummary[];
+  const [trips, setTrips] = useState<TripSummary[]>(initialTrips || []);
 
   const handleCreate = async () => {
-    await createTrip({ name: newTripName });
-    const updatedTrips = await getTrips();
-    setNewTripName("");
-    setTrips(updatedTrips);
+    if (!newTripName.trim()) return;
+
+    try {
+      await createTrip({ name: newTripName });
+      const updatedTrips = await getTrips();
+      setNewTripName("");
+      setTrips(updatedTrips);
+      setShowCreateForm(false);
+    } catch (error) {
+      console.error("Failed to create trip:", error);
+    }
   };
 
   const handleDelete = async (id: string) => {
-    await deleteTripById(id);
-    const updatedTrips = await getTrips();
-    setTrips(updatedTrips);
+    try {
+      await deleteTripById(id);
+      const updatedTrips = await getTrips();
+      setTrips(updatedTrips);
+    } catch (error) {
+      console.error("Failed to delete trip:", error);
+    }
   };
 
+  const filteredTrips = trips.filter((trip) =>
+    trip.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "#f5f5f5", pb: { xs: 4, sm: 0 } }}>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        bgcolor: "#f8fafc",
+        pb: 10, // Space for FAB
+      }}
+    >
+      {/* Header */}
       <Box
         sx={{
-          maxWidth: 480,
-          mx: "auto",
-          p: { xs: 2, sm: 3 },
+          p: 3,
+          pt: 2,
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          color: "white",
+          borderRadius: "0 0 24px 24px",
         }}
       >
-        <Typography
-          variant="h5"
-          sx={{
-            pb: { xs: 2, sm: 3 },
-            textAlign: "center",
-            fontSize: { xs: 24, sm: 28 },
-            fontWeight: 600,
-          }}
-        >
-          Your Trips
-        </Typography>
         <Box
           sx={{
             display: "flex",
-            gap: { xs: 1.5, sm: 1 },
-            mb: { xs: 2, sm: 3 },
-            flexDirection: { xs: "column", sm: "row" },
+            alignItems: "center",
+            justifyContent: "space-between",
+            mb: 3,
           }}
         >
-          <TextField
-            label="New Trip Name"
-            value={newTripName}
-            onChange={(e) => setNewTripName(e.target.value)}
-            fullWidth
-            size="small"
-            sx={{
-              "& .MuiInputBase-root": {
-                height: { xs: 48, sm: 40 },
-              },
-            }}
-            inputProps={{
-              style: { fontSize: 16 },
-              maxLength: 50,
-            }}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<AddIcon />}
-            onClick={handleCreate}
-            disabled={!newTripName.trim()}
-            sx={{
-              minWidth: { xs: "100%", sm: 120 },
-              fontSize: 16,
-              height: { xs: 48, sm: 40 },
-              mt: { xs: 0, sm: 0 },
-            }}
-          >
-            Add
-          </Button>
+          <Box>
+            <Typography variant="h5" sx={{ fontWeight: 600, mb: 0.5 }}>
+              Welcome to RouteNest 👋
+            </Typography>
+          </Box>
         </Box>
-        <Autocomplete
-          freeSolo
-          id="free-solo-2-demo"
-          disableClearable
-          options={initialTrips.map((trip) => trip.name)}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Search trips ..."
-              slotProps={{
-                input: {
-                  ...params.InputProps,
-                  type: "search",
-                },
-              }}
-            />
-          )}
-          onInputChange={(event, value) => {
-            const trip = initialTrips.find((trip) => trip.name === value);
-            if (trip) {
-              setTrips([trip]);
-            } else {
-              setTrips(initialTrips);
-            }
+        {/* Search Bar */}
+        <TextField
+          fullWidth
+          placeholder="Search"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon sx={{ color: "rgba(0,0,0,0.4)" }} />
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              bgcolor: "white",
+              borderRadius: 3,
+              "& fieldset": { border: "none" },
+              "& input": { py: 2 },
+            },
           }}
         />
-        <List sx={{ width: "100%", gap: { xs: 1.5, sm: 1 } }}>
-          {trips.map((trip: TripSummary) => (
-            <React.Fragment key={trip._id}>
-              <ListItem
-                component="div"
-                sx={{
-                  borderRadius: 2,
-                  mb: { xs: 2, sm: 1 },
-                  bgcolor: "white",
-                  cursor: "pointer",
-                  px: { xs: 2, sm: 2 },
-                  py: { xs: 2.5, sm: 2 },
-                  display: "flex",
-                  flexDirection: { xs: "column", sm: "row" },
-                  alignItems: { xs: "stretch", sm: "center" },
-                  gap: { xs: 1, sm: 0 },
-                  boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-                }}
-              >
-                <ListItemText
-                  primary={
-                    <Typography
-                      sx={{
-                        fontSize: { xs: 18, sm: 18 },
-                        fontWeight: 500,
-                        mb: { xs: 0.5, sm: 0 },
-                      }}
-                    >
-                      {trip.name}
-                    </Typography>
-                  }
-                  secondary={
-                    <Typography
-                      sx={{
-                        fontSize: { xs: 14, sm: 14 },
-                        color: "text.secondary",
-                      }}
-                    >
-                      Created: {new Date(trip.createdAt).toLocaleString()}
-                    </Typography>
-                  }
-                  onClick={() => navigate(`/trip/${trip._id}`)}
-                  sx={{ flex: 1 }}
-                />
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  sx={{
-                    touchAction: "manipulation",
-                    width: { xs: "100%", sm: "auto" },
-                    borderRadius: { xs: 1, sm: "50%" },
-                    border: { xs: "1px solid #e0e0e0", sm: "none" },
-                    py: { xs: 1, sm: 1 },
-                  }}
-                  onClick={() => handleDelete(trip._id)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </ListItem>
-              <Divider sx={{ display: { xs: "none", sm: "block" } }} />
-            </React.Fragment>
-          ))}
-        </List>
       </Box>
+
+      <Box sx={{ px: 3, mt: 3 }}>
+        {/* Your Trips Section */}
+        <Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mb: 2,
+            }}
+          >
+            <Typography variant="h6" sx={{ fontWeight: 600, color: "#1a202c" }}>
+              Your Trips
+            </Typography>
+          </Box>
+
+          {filteredTrips.length === 0 ? (
+            <Box
+              sx={{
+                textAlign: "center",
+                py: 6,
+                bgcolor: "white",
+                borderRadius: 3,
+                border: "2px dashed #e2e8f0",
+              }}
+            >
+              <Typography color="text.secondary" sx={{ mb: 2 }}>
+                {searchQuery
+                  ? "No trips found for your search."
+                  : "No trips yet. Create your first adventure!"}
+              </Typography>
+            </Box>
+          ) : (
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              {filteredTrips.slice(0, 3).map((trip) => (
+                <Card
+                  key={trip._id}
+                  sx={{
+                    borderRadius: 3,
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                    cursor: "pointer",
+                    "&:hover": { boxShadow: "0 4px 16px rgba(0,0,0,0.15)" },
+                    transition: "all 0.2s",
+                  }}
+                  onClick={() => navigate(`/trip/${trip._id}`)}
+                >
+                  <CardContent sx={{ p: 3 }}>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                      <Box
+                        sx={{
+                          width: 60,
+                          height: 60,
+                          borderRadius: 2,
+                          background:
+                            "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: "white",
+                          fontWeight: 600,
+                          fontSize: 18,
+                        }}
+                      >
+                        {trip.name.charAt(0).toUpperCase()}
+                      </Box>
+
+                      <Box sx={{ flex: 1 }}>
+                        <Typography
+                          variant="h6"
+                          sx={{ fontWeight: 600, mb: 0.5 }}
+                        >
+                          {trip.name}
+                        </Typography>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 0.5,
+                            mb: 1,
+                          }}
+                        >
+                          <CalendarTodayIcon
+                            sx={{ fontSize: 14, color: "#64748b" }}
+                          />
+                          <Typography variant="body2" color="text.secondary">
+                            {new Date(trip.createdAt).toLocaleDateString()}
+                          </Typography>
+                        </Box>
+                        <Chip
+                          label="Trip Planning"
+                          size="small"
+                          sx={{
+                            bgcolor: "#e0f2fe",
+                            color: "#0277bd",
+                            height: 24,
+                            fontSize: 11,
+                          }}
+                        />
+                      </Box>
+
+                      <IconButton
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(trip._id);
+                        }}
+                        sx={{
+                          color: "#f56565",
+                          "&:hover": { bgcolor: "#fed7d7" },
+                        }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Box>
+                  </CardContent>
+                </Card>
+              ))}
+            </Box>
+          )}
+        </Box>
+      </Box>
+
+      {/* Create Trip Dialog */}
+      {showCreateForm && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            bgcolor: "rgba(0,0,0,0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1300,
+            p: 3,
+          }}
+        >
+          <Card
+            sx={{
+              width: "100%",
+              maxWidth: 400,
+              borderRadius: 3,
+              boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
+            }}
+          >
+            <CardContent sx={{ p: 3 }}>
+              <Typography variant="h6" sx={{ mb: 3, fontWeight: 600 }}>
+                Create New Trip
+              </Typography>
+
+              <TextField
+                fullWidth
+                label="Trip Name"
+                value={newTripName}
+                onChange={(e) => setNewTripName(e.target.value)}
+                placeholder="Enter your adventure name"
+                sx={{ mb: 3 }}
+                autoFocus
+              />
+
+              <Box sx={{ display: "flex", gap: 2, justifyContent: "flex-end" }}>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    setShowCreateForm(false);
+                    setNewTripName("");
+                  }}
+                  sx={{ borderRadius: 2 }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={handleCreate}
+                  disabled={!newTripName.trim()}
+                  sx={{
+                    borderRadius: 2,
+                    background:
+                      "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                  }}
+                >
+                  Create Trip
+                </Button>
+              </Box>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
+
+      {/* Floating Action Button */}
+      <Fab
+        color="primary"
+        sx={{
+          position: "fixed",
+          bottom: 24,
+          right: 24,
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          "&:hover": {
+            background: "linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%)",
+          },
+        }}
+        onClick={() => setShowCreateForm(true)}
+      >
+        <AddIcon />
+      </Fab>
     </Box>
   );
 };

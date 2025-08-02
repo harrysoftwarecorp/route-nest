@@ -6,16 +6,16 @@ import TripPage, { tripDetailLoader } from "./pages/TripPage";
 const routes = [
   {
     path: "/",
+    element: <LandingPage />,
+    loader: tripLoader,
+  },
+  {
+    path: "/trip",
     element: <Layout />,
     children: [
       {
-        element: <LandingPage />,
-        path: "/",
-        loader: tripLoader,
-      },
-      {
         element: <TripPage />,
-        path: "/trip/:tripId",
+        path: ":tripId",
         loader: tripDetailLoader,
       },
     ],
