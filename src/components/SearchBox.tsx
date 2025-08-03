@@ -8,7 +8,17 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 
-export const SearchBox = ({ searchValue, onSearchChange, showCreateForm }) => {
+interface SearchBoxProps {
+  searchValue: string;
+  onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  showCreateForm: () => void;
+}
+
+export const SearchBox = ({
+  searchValue,
+  onSearchChange,
+  showCreateForm,
+}: SearchBoxProps) => {
   return (
     <Box m={2} mt={0} p={3} border={1} borderRadius={2} borderColor="LightGray">
       <Typography sx={{ mb: 2 }}>

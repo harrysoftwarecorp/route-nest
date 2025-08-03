@@ -1,25 +1,17 @@
-import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-import SearchIcon from "@mui/icons-material/Search";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import {
   Box,
   Button,
   Card,
   CardContent,
-  Chip,
-  IconButton,
-  InputAdornment,
   TextField,
   Typography,
-  Fab,
 } from "@mui/material";
 import React, { useState } from "react";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import {
-  getTrips,
-  deleteTripById,
   createTrip,
+  deleteTripById,
+  getTrips,
   type TripSummary,
 } from "../api/tripApi";
 import { Header } from "../components/Header";
@@ -40,7 +32,6 @@ const LandingPage: React.FC = () => {
   const [newTripName, setNewTripName] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [showCreateForm, setShowCreateForm] = useState(false);
-  const navigate = useNavigate();
   const initialTrips = useLoaderData() as TripSummary[];
   const [trips, setTrips] = useState<TripSummary[]>(initialTrips || []);
 

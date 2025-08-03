@@ -1,8 +1,14 @@
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import { Box, Grid, Typography } from "@mui/material";
+import type { TripSummary } from "../api/tripApi";
 
-export const TripCard = ({ trip, handleTripDelete }) => {
+interface TripCardProps {
+  trip: TripSummary;
+  handleTripDelete: (tripId: string) => void;
+}
+
+export const TripCard = ({ trip, handleTripDelete }: TripCardProps) => {
   return (
     <Box border={1} borderRadius={2} borderColor="LightGray" mb={2}>
       {/* Header with Trip ID */}
