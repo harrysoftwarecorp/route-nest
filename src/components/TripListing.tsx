@@ -20,7 +20,7 @@ export const TripListing = ({ trips, handleTripDelete }: TripListingProps) => {
       </Typography>
       <Box
         sx={{
-          height: "60vh",
+          height: "40vh",
           overflowY: "auto",
         }}
       >
