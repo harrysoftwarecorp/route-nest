@@ -1,7 +1,9 @@
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import DeleteIcon from "@mui/icons-material/Delete";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import { Box, Grid, Typography } from "@mui/material";
 import type { TripSummary } from "../api/tripApi";
+import { useNavigate } from "react-router-dom";
 
 interface TripCardProps {
   trip: TripSummary;
@@ -9,38 +11,27 @@ interface TripCardProps {
 }
 
 export const TripCard = ({ trip, handleTripDelete }: TripCardProps) => {
+  const navigate = useNavigate();
+
   return (
     <Box border={1} borderRadius={2} borderColor="LightGray" mb={2}>
-      {/* Header with Trip ID */}
-      <Box
-        bgcolor={"primary.main"}
-        sx={{ borderTopLeftRadius: "8px", borderTopRightRadius: "8px" }}
-      >
-        <Typography
-          px={2}
-          py={1}
-          variant="body2"
-          sx={{ fontWeight: "bold" }}
-          color="primary.contrastText"
-        >
-          ID: {trip._id}
-        </Typography>
-      </Box>
       {/* Trip Details */}
       <Grid container>
         <Grid size={3}>
           <Box
             component="img"
-            src="https://images.unsplash.com/flagged/photo-1552470470-959579335ea9?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cm9hZHRyaXB8ZW58MHx8MHx8fDA%3D"
+            src="https://media.istockphoto.com/id/1349388632/video/planes-routes-flying-over-world-map-tourism-and-travel-concept-graphic-animation.jpg?s=640x640&k=20&c=stIhMDocRBI0kAHrEgNtaU6O0uw1RiIFg4yO3N68X1Y="
             alt="trip-logo"
             sx={{
               width: "100%",
               height: "100%",
               objectFit: "cover",
+              borderTopLeftRadius: "8px",
+              borderBottomLeftRadius: "8px",
             }}
           />
         </Grid>
-        <Grid size={9}>
+        <Grid size={7} onClick={() => navigate(`/trips/${trip._id}`)}>
           <Typography
             variant="body2"
             color="text.primary"
@@ -61,54 +52,22 @@ export const TripCard = ({ trip, handleTripDelete }: TripCardProps) => {
               fontSize="medium"
               sx={{ verticalAlign: "middle", mr: 0.5 }}
             />
-            3 days
+            {trip.length} days
           </Typography>
         </Grid>
-      </Grid>
-      {/* Action Buttons */}
-      <Grid container>
-        <Grid
-          size={6}
-          bgcolor={"primary.main"}
-          sx={{
-            borderBottomLeftRadius: "8px",
-          }}
-        >
-          <Box onClick={() => console.log("Trip clicked!")}>
-            <Typography
-              variant="body2"
-              color="primary.contrastText"
-              sx={{
-                fontWeight: "bold",
-                textAlign: "center",
-                p: 1,
-                cursor: "pointer",
-              }}
-            >
-              View Details
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid
-          size={6}
-          bgcolor={"error.light"}
-          sx={{
-            borderBottomRightRadius: "8px",
-          }}
-        >
-          <Box onClick={() => handleTripDelete(trip._id)}>
-            <Typography
-              variant="body2"
-              color="error.contrastText"
-              sx={{
-                fontWeight: "bold",
-                textAlign: "center",
-                p: 1,
-                cursor: "pointer",
-              }}
-            >
-              Delete
-            </Typography>
+        <Grid size={2} borderLeft={1} borderColor="LightGray">
+          <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            color="error.light"
+            onClick={() => handleTripDelete(trip._id)}
+          >
+            <DeleteIcon />
           </Box>
         </Grid>
       </Grid>

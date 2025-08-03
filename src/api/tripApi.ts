@@ -17,6 +17,7 @@ export interface Stop {
 export interface TripSummary {
   _id: string;
   name: string;
+  length: number;
   createdAt: string;
 }
 
@@ -38,9 +39,10 @@ export const getTripById = async (tripId: string): Promise<TripDetail> => {
   return response.data;
 }
 
-export const createTrip = async ({name}: {name: string}): Promise<TripDetail> => {
+export const createTrip = async ({name, length}:{name: string, length: number}): Promise<TripDetail> => {
   const response = await api.post(`/api/trips`, {
     name,
+    length,
     stops: [],
     routes: []
   });

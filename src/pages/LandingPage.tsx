@@ -30,6 +30,7 @@ export const tripLoader = async () => {
 
 const LandingPage: React.FC = () => {
   const [newTripName, setNewTripName] = useState("");
+  const [newTripLength, setNewTripLength] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [showCreateForm, setShowCreateForm] = useState(false);
   const initialTrips = useLoaderData() as TripSummary[];
@@ -37,12 +38,14 @@ const LandingPage: React.FC = () => {
 
   const handleCreate = async () => {
     if (!newTripName.trim()) return;
+    if (newTripLength <= 0) return;
 
     try {
-      await createTrip({ name: newTripName });
+      await createTrip({ name: newTripName, length: newTripLength });
       const updatedTrips = await getTrips();
       setNewTripName("");
-      setTrips(updatedTrips);
+      setNewTripLength(0);
+      setTrips([...updatedTrips]);
       setShowCreateForm(false);
     } catch (error) {
       console.error("Failed to create trip:", error);
@@ -123,6 +126,19 @@ const LandingPage: React.FC = () => {
                 sx={{ mb: 3 }}
                 autoFocus
               />
+              <TextField
+                fullWidth
+                type="number"
+                label="Trip Length"
+                value={newTripLength}
+                onChange={(e) =>
+                  setNewTripLength(
+                    e.target.value ? parseInt(e.target.value) : 0
+                  )
+                }
+                placeholder="Enter your adventure length in days"
+                sx={{ mb: 3 }}
+              />
 
               <Box sx={{ display: "flex", gap: 2, justifyContent: "flex-end" }}>
                 <Button
@@ -139,7 +155,7 @@ const LandingPage: React.FC = () => {
                   variant="contained"
                   color="primary"
                   onClick={handleCreate}
-                  disabled={!newTripName.trim()}
+                  disabled={!newTripName.trim() || newTripLength <= 0}
                   sx={{
                     borderRadius: 2,
                     textTransform: "none",
