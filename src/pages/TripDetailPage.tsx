@@ -1,371 +1,230 @@
-import "leaflet-geosearch/dist/geosearch.css";
-import "leaflet/dist/leaflet.css";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import { MapSearchControl } from "../components/MapSearchControl";
-import {
-  Box,
-  Typography,
-  Card,
-  CardContent,
-  Button,
-  Chip,
-  Divider,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  Collapse,
-} from "@mui/material";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import ScheduleIcon from "@mui/icons-material/Schedule";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import ShareIcon from "@mui/icons-material/Share";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import DirectionsIcon from "@mui/icons-material/Directions";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import StarIcon from "@mui/icons-material/Star";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Box } from "@mui/material";
+import { TripBottomSheet } from "../components/TripBottomSheet";
+import { TripMapView } from "../components/TripMapView";
+import type { TripDetail, Stop } from "../types";
 
-export const TripDetailPage = () => {
+export const TripDetailPage: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const mockStops = [
-    {
-      id: 1,
-      name: "Ben Thanh Market",
-      time: "09:00 AM",
-      duration: "2 hours",
-    },
-    {
-      id: 2,
-      name: "Saigon Notre-Dame Cathedral",
-      time: "11:30 AM",
-      duration: "1 hour",
-    },
-    {
-      id: 3,
-      name: "Independence Palace",
-      time: "02:00 PM",
-      duration: "1.5 hours",
-    },
-  ];
+  // Enhanced mock trip data with new schema
+  const mockTrip: TripDetail = {
+    _id: "trip_001",
+    name: "Saigon Discovery Adventure",
+    description:
+      "A comprehensive cultural and culinary journey through Ho Chi Minh City's most iconic destinations.",
+    userId: "user_001",
+    createdAt: "2025-08-01T10:00:00Z",
+    updatedAt: "2025-08-09T15:30:00Z",
+    startDate: "2025-08-15T09:00:00Z",
+    endDate: "2025-08-17T18:00:00Z",
+    estimatedDuration: 3,
+    isPublic: true,
+    isTemplate: false,
+    category: "city_exploration",
+    tags: ["cultural", "food", "historical", "markets"],
+    visibility: "public",
+    sharedWith: [],
+    rating: 4.3,
+    reviewCount: 127,
 
-  const toggleExpanded = () => {
+    stops: [
+      {
+        id: 1,
+        tripId: "trip_001",
+        name: "Ben Thanh Market",
+        description:
+          "Historic market in the heart of Saigon, perfect for local souvenirs and street food",
+        lat: 10.7722,
+        lng: 106.698,
+        address: "Bến Thành, Quận 1, Thành phố Hồ Chí Minh",
+        plannedArrival: "2025-08-15T09:00:00Z",
+        plannedDeparture: "2025-08-15T11:00:00Z",
+        estimatedDuration: 120,
+        stopType: "shopping",
+        priority: "high",
+        cost: 200000,
+        notes: "Try the bánh mì and fresh fruit stalls on the north side",
+        photos: [],
+        order: 1,
+        isCompleted: false,
+        isSkipped: false,
+        createdAt: "2025-08-01T10:00:00Z",
+        updatedAt: "2025-08-01T10:00:00Z",
+      },
+      {
+        id: 2,
+        tripId: "trip_001",
+        name: "Saigon Notre-Dame Cathedral",
+        description:
+          "Neo-Romanesque cathedral built by French colonists in the late 1800s",
+        lat: 10.7798,
+        lng: 106.699,
+        address: "1 Công xã Paris, Bến Nghé, Quận 1, Thành phố Hồ Chí Minh",
+        plannedArrival: "2025-08-15T11:30:00Z",
+        plannedDeparture: "2025-08-15T12:30:00Z",
+        estimatedDuration: 60,
+        stopType: "culture",
+        priority: "medium",
+        cost: 0,
+        notes: "Free entry, best photos from the front steps",
+        photos: [],
+        order: 2,
+        isCompleted: true,
+        isSkipped: false,
+        createdAt: "2025-08-01T10:00:00Z",
+        updatedAt: "2025-08-01T10:00:00Z",
+      },
+      {
+        id: 3,
+        tripId: "trip_001",
+        name: "Independence Palace",
+        description: "Historic palace and symbol of Vietnamese independence",
+        lat: 10.7769,
+        lng: 106.6955,
+        address:
+          "135 Nam Kỳ Khởi Nghĩa, Bến Thành, Quận 1, Thành phố Hồ Chí Minh",
+        plannedArrival: "2025-08-15T14:00:00Z",
+        plannedDeparture: "2025-08-15T15:30:00Z",
+        estimatedDuration: 90,
+        stopType: "attraction",
+        priority: "high",
+        cost: 65000,
+        notes: "Don't miss the war room in the basement",
+        photos: [],
+        order: 3,
+        isCompleted: false,
+        isSkipped: false,
+        createdAt: "2025-08-01T10:00:00Z",
+        updatedAt: "2025-08-01T10:00:00Z",
+      },
+      {
+        id: 4,
+        tripId: "trip_001",
+        name: "Bitexco Financial Tower",
+        description:
+          "Iconic skyscraper with observation deck offering panoramic city views",
+        lat: 10.7714,
+        lng: 106.7044,
+        address: "2 Hải Triều, Bến Nghé, Quận 1, Thành phố Hồ Chí Minh",
+        plannedArrival: "2025-08-15T16:00:00Z",
+        plannedDeparture: "2025-08-15T17:00:00Z",
+        estimatedDuration: 60,
+        stopType: "attraction",
+        priority: "medium",
+        cost: 200000,
+        notes: "Best sunset views from SkyBar on 50th floor",
+        photos: [],
+        order: 4,
+        isCompleted: false,
+        isSkipped: false,
+        createdAt: "2025-08-01T10:00:00Z",
+        updatedAt: "2025-08-01T10:00:00Z",
+      },
+    ],
+
+    routes: [],
+
+    stats: {
+      totalDistance: 5200, // 5.2 km
+      estimatedDuration: 480, // 8 hours total
+      stopCount: 4,
+      averageStopDuration: 82.5, // Average minutes per stop
+      transportModes: ["walking", "motorcycle"],
+      estimatedCost: 465000, // Total estimated cost in VND
+      difficultyLevel: "easy",
+    },
+
+    // Progress tracking
+    progress: {
+      completedStops: 1,
+      totalStops: 4,
+      percentComplete: 25,
+    },
+
+    nextStop: {
+      id: 3,
+      tripId: "trip_001",
+      name: "Independence Palace",
+      description: "Historic palace and symbol of Vietnamese independence",
+      lat: 10.7769,
+      lng: 106.6955,
+      address:
+        "135 Nam Kỳ Khởi Nghĩa, Bến Thành, Quận 1, Thành phố Hồ Chí Minh",
+      plannedArrival: "2025-08-15T14:00:00Z",
+      plannedDeparture: "2025-08-15T15:30:00Z",
+      estimatedDuration: 90,
+      stopType: "attraction",
+      priority: "high",
+      cost: 65000,
+      notes: "Don't miss the war room in the basement",
+      photos: [],
+      order: 3,
+      isCompleted: false,
+      isSkipped: false,
+      createdAt: "2025-08-01T10:00:00Z",
+      updatedAt: "2025-08-01T10:00:00Z",
+    },
+  };
+
+  const handleToggleExpanded = () => {
     setIsExpanded(!isExpanded);
   };
 
+  const handleAddToItinerary = () => {
+    console.log("Adding trip to itinerary...");
+    // TODO: Implement itinerary addition logic
+  };
+
+  const handleStopClick = (stop: Stop) => {
+    console.log("Focusing on stop:", stop.name);
+    // TODO: Focus map on specific stop
+  };
+
+  const handleAddStop = () => {
+    console.log("Opening add stop dialog...");
+    // TODO: Open add stop dialog
+  };
+
+  const handleShare = () => {
+    console.log("Sharing trip...");
+    // TODO: Implement share functionality
+  };
+
+  const handleFavorite = () => {
+    console.log("Adding to favorites...");
+    // TODO: Implement favorite functionality
+  };
+
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "#f8fafc", position: "relative" }}>
-      {/* Map Section */}
-      <Box sx={{ position: "relative", height: "100vh" }}>
-        <MapContainer
-          style={{ height: "100%", width: "100%", borderRadius: "0" }}
-          center={[10.7769, 106.7009]} // Ho Chi Minh City coordinates
-          zoom={13}
-          scrollWheelZoom={true}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <Marker position={[10.7769, 106.7009]}>
-            <Popup>Saigon Trip Route</Popup>
-          </Marker>
-          <MapSearchControl />
-        </MapContainer>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        bgcolor: "#f8fafc",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* Full-Screen Map */}
+      <TripMapView
+        trip={mockTrip}
+        height="100vh"
+        showControls={true}
+        center={[10.7769, 106.7009]}
+        zoom={13}
+      />
 
-        {/* Collapsible Bottom Sheet */}
-        <Card
-          sx={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-            borderBottomLeftRadius: 0,
-            borderBottomRightRadius: 0,
-            boxShadow: "0 -4px 20px rgba(0,0,0,0.15)",
-            zIndex: 1000,
-            maxHeight: isExpanded ? "80vh" : "auto",
-            transition: "all 0.3s ease-in-out",
-          }}
-        >
-          {/* Drag Handle */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              pt: 1,
-              pb: 0,
-              cursor: "pointer",
-            }}
-            onClick={toggleExpanded}
-          >
-            <Box
-              sx={{
-                width: 40,
-                height: 4,
-                bgcolor: "grey.300",
-                borderRadius: 2,
-              }}
-            />
-          </Box>
-
-          <CardContent sx={{ p: 3, pb: isExpanded ? 3 : 2 }}>
-            {/* Compact Header */}
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                mb: 2,
-                cursor: "pointer",
-              }}
-              onClick={toggleExpanded}
-            >
-              <Box sx={{ flex: 1 }}>
-                <Box
-                  sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}
-                >
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontWeight: "bold",
-                      color: "text.primary",
-                      fontSize: { xs: 18, sm: 20 },
-                    }}
-                  >
-                    Saigon Discovery Trip
-                  </Typography>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                    <StarIcon sx={{ color: "#FFD700", fontSize: 18 }} />
-                    <Typography
-                      variant="body2"
-                      sx={{ fontWeight: "bold", color: "text.primary" }}
-                    >
-                      4.3
-                    </Typography>
-                  </Box>
-                </Box>
-
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                    <LocationOnIcon
-                      sx={{ fontSize: 16, color: "text.secondary" }}
-                    />
-                    <Typography variant="body2" color="text.secondary">
-                      10 km from you
-                    </Typography>
-                  </Box>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                    <AccessTimeIcon
-                      sx={{ fontSize: 16, color: "text.secondary" }}
-                    />
-                    <Typography variant="body2" color="text.secondary">
-                      7 Minutes
-                    </Typography>
-                  </Box>
-                </Box>
-              </Box>
-
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <IconButton size="small">
-                  <ShareIcon />
-                </IconButton>
-                <IconButton size="small">
-                  <FavoriteIcon />
-                </IconButton>
-                <IconButton size="small">
-                  {isExpanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-                </IconButton>
-              </Box>
-            </Box>
-
-            {/* Expandable Content */}
-            <Collapse in={isExpanded} timeout={300}>
-              <Box>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ mb: 2, lineHeight: 1.4 }}
-                >
-                  District 1, Ho Chi Minh City, Vietnam
-                  <br />
-                  Historic and cultural journey through the heart of Saigon
-                </Typography>
-
-                {/* Trip Stats */}
-                <Box
-                  sx={{
-                    display: "flex",
-                    gap: 1.5,
-                    mb: 3,
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <Chip
-                    icon={<CalendarTodayIcon />}
-                    label={new Date().toLocaleDateString()}
-                    variant="outlined"
-                    size="small"
-                    sx={{
-                      borderColor: "primary.main",
-                      color: "primary.main",
-                      "& .MuiChip-icon": { color: "primary.main" },
-                    }}
-                  />
-                  <Chip
-                    icon={<ScheduleIcon />}
-                    label="3 days"
-                    variant="outlined"
-                    size="small"
-                    sx={{
-                      borderColor: "primary.main",
-                      color: "primary.main",
-                      "& .MuiChip-icon": { color: "primary.main" },
-                    }}
-                  />
-                  <Chip
-                    icon={<DirectionsIcon />}
-                    label={`${mockStops.length} stops`}
-                    variant="outlined"
-                    size="small"
-                    sx={{
-                      borderColor: "primary.main",
-                      color: "primary.main",
-                      "& .MuiChip-icon": { color: "primary.main" },
-                    }}
-                  />
-                </Box>
-
-                <Divider sx={{ my: 2 }} />
-
-                {/* Trip Stops Section */}
-                <Box sx={{ mb: 3 }}>
-                  <Typography
-                    variant="subtitle1"
-                    sx={{
-                      fontWeight: "bold",
-                      mb: 2,
-                      color: "text.primary",
-                    }}
-                  >
-                    Planned Stops
-                  </Typography>
-
-                  <Box
-                    sx={{
-                      maxHeight: "40vh",
-                      overflowY: "auto",
-                      pr: 1,
-                    }}
-                  >
-                    <List sx={{ p: 0 }}>
-                      {mockStops.map((stop, index) => (
-                        <ListItem
-                          key={stop.id}
-                          sx={{
-                            px: 2,
-                            py: 1.5,
-                            borderRadius: 2,
-                            mb: 1,
-                            bgcolor: "grey.50",
-                            border: "1px solid",
-                            borderColor: "grey.200",
-                            cursor: "pointer",
-                            transition: "all 0.2s ease",
-                            "&:hover": {
-                              bgcolor: "grey.100",
-                              transform: "translateY(-1px)",
-                              boxShadow: 2,
-                            },
-                          }}
-                        >
-                          <ListItemIcon sx={{ minWidth: 40 }}>
-                            <Box
-                              sx={{
-                                width: 28,
-                                height: 28,
-                                borderRadius: "50%",
-                                bgcolor: "primary.main",
-                                color: "white",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                fontSize: 14,
-                                fontWeight: "bold",
-                              }}
-                            >
-                              {index + 1}
-                            </Box>
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={
-                              <Typography
-                                variant="body1"
-                                sx={{ fontWeight: "medium", mb: 0.5 }}
-                              >
-                                {stop.name}
-                              </Typography>
-                            }
-                            secondary={
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  gap: 2,
-                                  flexWrap: "wrap",
-                                }}
-                              >
-                                <Typography
-                                  variant="body2"
-                                  color="text.secondary"
-                                >
-                                  🕐 {stop.time}
-                                </Typography>
-                                <Typography
-                                  variant="body2"
-                                  color="text.secondary"
-                                >
-                                  ⏱️ {stop.duration}
-                                </Typography>
-                              </Box>
-                            }
-                          />
-                        </ListItem>
-                      ))}
-                    </List>
-                  </Box>
-                </Box>
-              </Box>
-            </Collapse>
-
-            {/* Action Button - Always Visible */}
-            <Button
-              variant="contained"
-              fullWidth
-              size="large"
-              sx={{
-                borderRadius: 2,
-                py: 1.5,
-                textTransform: "none",
-                fontSize: 16,
-                fontWeight: "bold",
-                bgcolor: "primary.main",
-                "&:hover": {
-                  bgcolor: "primary.dark",
-                },
-                mt: isExpanded ? 2 : 0,
-              }}
-            >
-              Add to Itinerary
-            </Button>
-          </CardContent>
-        </Card>
-      </Box>
+      {/* Collapsible Bottom Sheet */}
+      <TripBottomSheet
+        trip={mockTrip}
+        isExpanded={isExpanded}
+        onToggleExpanded={handleToggleExpanded}
+        onAddToItinerary={handleAddToItinerary}
+        onStopClick={handleStopClick}
+        onAddStop={handleAddStop}
+        onShare={handleShare}
+        onFavorite={handleFavorite}
+      />
     </Box>
   );
 };
