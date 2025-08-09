@@ -14,9 +14,9 @@ import {
   getTrips,
   type TripSummary,
 } from "../api/tripApi";
-import { Header } from "../components/Header";
-import { SearchBox } from "../components/SearchBox";
-import { TripListing } from "../components/TripListing";
+import { Header } from "../components/ui/Header";
+import { SearchBox } from "../components/ui/SearchBox";
+import { TripListing } from "../components/trip/TripListing";
 
 export const tripLoader = async () => {
   try {

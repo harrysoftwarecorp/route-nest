@@ -5,8 +5,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { TripHeader } from "./TripHeader";
 import { TripStatsChips } from "./TripStatsChips";
 import { TripStopsList } from "./TripStopsList";
-import { TripActionButton } from "./TripActionButton";
-import type { TripDetail, Stop } from "../types";
+import { TripActionButton } from "../ui/TripActionButton";
+import type { TripDetail, Stop } from "../../types";
 
 interface TripBottomSheetProps {
   trip: TripDetail;

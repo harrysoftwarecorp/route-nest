@@ -2,9 +2,9 @@ import { Box, Drawer } from "@mui/material";
 import React, { useState } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 import { getTripById, addStopToTrip, deleteStopFromTrip } from "../api/tripApi";
-import TripMap from "../components/TripMap";
-import TripSidebar from "../components/TripSidebar";
-import { AddStopDialog } from "../components/AddStopDialog";
+import TripMap from "../components/map/TripMap";
+import TripSidebar from "../components/trip/TripSidebar";
+import { AddStopDialog } from "../components/stop/AddStopDialog";
 import type { TripDetail } from "../types";
 
 export const tripDetailLoader = async ({ params }: { params: any }) => {

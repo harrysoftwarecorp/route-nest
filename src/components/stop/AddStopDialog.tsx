@@ -15,7 +15,7 @@ import {
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import type { StopType, AddStopRequest } from "../types";
+import type { StopType, AddStopRequest } from "../../types";
 
 interface AddStopDialogProps {
   open: boolean;

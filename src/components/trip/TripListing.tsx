@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { TripCard } from "./TripCard";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
-import type { TripSummary } from "../api/tripApi";
+import type { TripSummary } from "../../api/tripApi";
 import { useEffect, useState } from "react";
 
 interface TripListingProps {

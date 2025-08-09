@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import { Box } from "@mui/material";
-import type { Stop } from "./TripSidebar";
+import type { Stop } from "../trip/TripSidebar";
 
 interface TripMapProps {
   stops: Stop[];

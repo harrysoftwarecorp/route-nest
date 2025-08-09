@@ -1,8 +1,8 @@
 import React from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { Box } from "@mui/material";
-import { MapSearchControl } from "./MapSearchControl";
-import type { TripDetail, MapControls } from "./../types";
+import { MapSearchControl } from "../MapSearchControl";
+import type { TripDetail, MapControls } from "../../types";
 import "leaflet/dist/leaflet.css";
 import "leaflet-geosearch/dist/geosearch.css";
 

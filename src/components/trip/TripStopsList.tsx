@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Typography, List, Button, Divider } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { StopListItem } from "./StopListItem";
-import type { Stop } from "../types";
+import { StopListItem } from "../stop/StopListItem";
+import type { Stop } from "../../types";
 
 interface TripStopsListProps {
   stops: Stop[];

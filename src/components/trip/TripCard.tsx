@@ -2,7 +2,7 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import { Box, Grid, Typography } from "@mui/material";
-import type { TripSummary } from "../api/tripApi";
+import type { TripSummary } from "../../api/tripApi";
 import { useNavigate } from "react-router-dom";
 
 interface TripCardProps {

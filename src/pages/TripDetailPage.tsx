@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box } from "@mui/material";
-import { TripBottomSheet } from "../components/TripBottomSheet";
-import { TripMapView } from "../components/TripMapView";
+import { TripBottomSheet } from "../components/trip/TripBottomSheet";
+import { TripMapView } from "../components/map/TripMapView";
 import type { TripDetail, Stop } from "../types";
 
 export const TripDetailPage: React.FC = () => {
