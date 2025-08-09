@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LandingPage, { tripLoader } from "./pages/LandingPage";
 import { Layout } from "./pages/Layout";
 import TripPage, { tripDetailLoader } from "./pages/TripPage";
+import { TripDetailPage } from "./pages/TripDetailPage";
 
 const routes = [
   {
@@ -19,6 +20,10 @@ const routes = [
         loader: tripDetailLoader,
       },
     ],
+  },
+  {
+    path: "/test-map",
+    element: <TripDetailPage />,
   },
 ];
 
