@@ -18,12 +18,8 @@ import { useLoaderData } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import {
-  createTripLegacy,
-  deleteTripById,
-  getTrips,
-  type TripSummary,
-} from "../api/tripApi";
+import { createTripLegacy, deleteTripById, getTrips } from "../api/tripApi";
+import type { TripSummary } from "../types";
 
 export const tripLoader = async () => {
   try {
