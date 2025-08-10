@@ -1,0 +1,15 @@
+:root {
+  --app-height: 100%;
+}
+
+html,
+body {
+  height: var(--app-height);
+  margin: 0;
+  overflow: hidden;
+  /* prevents scrolling */
+}
+
+.app {
+  height: var(--app-height);
+}

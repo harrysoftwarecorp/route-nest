@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LandingPage, { tripLoader } from "./pages/LandingPage";
 import { TripDetailPage } from "./pages/TripDetailPage";
+import "./App.css";
 
 const routes = [
   {
