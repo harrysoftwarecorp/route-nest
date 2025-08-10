@@ -39,7 +39,7 @@ export const TripBottomSheet: React.FC<TripBottomSheetProps> = ({
   onAddStop,
   onDeleteStop,
   onEditStop,
-  onCompleteStop,
+  // onCompleteStop,
   onViewAllStops,
   onShare,
   onFavorite,
@@ -88,12 +88,12 @@ export const TripBottomSheet: React.FC<TripBottomSheetProps> = ({
   };
 
   // Handle stop completion with optimistic UI update
-  const handleStopComplete = (stopId: number) => {
-    const stop = trip.stops.find((s) => s.id === stopId);
-    if (stop && onCompleteStop) {
-      onCompleteStop(stopId, !stop.isCompleted);
-    }
-  };
+  // const handleStopComplete = (stopId: number) => {
+  //   const stop = trip.stops.find((s) => s.id === stopId);
+  //   if (stop && onCompleteStop) {
+  //     onCompleteStop(stopId, !stop.isCompleted);
+  //   }
+  // };
 
   return (
     <Card

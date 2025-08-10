@@ -8,8 +8,8 @@ import {
   getTripById,
   addStopToTrip,
   deleteStopFromTrip,
-  updateStop,
-  addTripToItinerary,
+  // updateStop,
+  // addTripToItinerary,
   shareTrip,
   markStopCompleted,
 } from "../api/tripApi";

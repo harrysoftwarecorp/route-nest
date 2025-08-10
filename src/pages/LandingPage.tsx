@@ -8,7 +8,6 @@ import {
   CardMedia,
   Chip,
   Grid,
-  Rating,
   Avatar,
   IconButton,
   Paper,
@@ -76,7 +75,7 @@ const LandingPage: React.FC = () => {
   };
 
   // Navigate to TripDetailPage instead of TripPage
-  const handleCardClick = (tripId) => {
+  const handleCardClick = (tripId: string) => {
     navigate(`/trip-detail/${tripId}`);
   };
 
@@ -216,9 +215,9 @@ const LandingPage: React.FC = () => {
                 },
               }}
             >
-              <Grid container spacing={2}>
+              <Grid>
                 {filteredTrips.map((trip) => (
-                  <Grid item xs={12} sm={6} md={4} key={trip._id}>
+                  <Grid pb={2} key={trip._id}>
                     <Card
                       sx={{
                         borderRadius: 3,

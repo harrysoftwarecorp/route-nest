@@ -1,7 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LandingPage, { tripLoader } from "./pages/LandingPage";
-import { Layout } from "./pages/Layout";
-import TripPage, { tripDetailLoader } from "./pages/TripPage";
 import { TripDetailPage } from "./pages/TripDetailPage";
 
 const routes = [
@@ -10,27 +8,21 @@ const routes = [
     element: <LandingPage />,
     loader: tripLoader,
   },
-  {
-    path: "/trip",
-    element: <Layout />,
-    children: [
-      {
-        element: <TripPage />,
-        path: ":tripId",
-        loader: tripDetailLoader,
-      },
-    ],
-  },
+  // {
+  //   path: "/trip",
+  //   element: <Layout />,
+  //   children: [
+  //     {
+  //       element: <TripPage />,
+  //       path: ":tripId",
+  //       loader: tripDetailLoader,
+  //     },
+  //   ],
+  // },
   // New enhanced trip detail page route
   {
     path: "/trip-detail/:tripId",
-    element: <Layout />,
-    children: [
-      {
-        index: true,
-        element: <TripDetailPage />,
-      },
-    ],
+    element: <TripDetailPage />,
   },
   // Test route for the new trip detail page
   {

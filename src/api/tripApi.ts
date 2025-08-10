@@ -216,13 +216,13 @@ export const createTripLegacy = async ({
 // Legacy stop addition (maps to new format)
 export const addStopToTripLegacy = async (
   tripId: string,
-  stop: Pick<Stop, "name" | "lat" | "lng" | "plannedTime">
+  stop: Pick<Stop, "name" | "lat" | "lng" | "plannedArrival">
 ): Promise<TripDetail> => {
   return addStopToTrip(tripId, {
     name: stop.name,
     lat: stop.lat,
     lng: stop.lng,
-    plannedArrival: stop.plannedTime,
+    plannedArrival: stop.plannedArrival,
     estimatedDuration: 60, // Default 1 hour
     stopType: "custom",
     priority: "medium",

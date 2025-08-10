@@ -267,9 +267,9 @@ export const TripMapView: React.FC<TripMapViewProps> = ({
         scrollWheelZoom={true}
         attributionControl={false}
         zoomControl={true}
-        whenCreated={(mapInstance) => {
-          mapRef.current = mapInstance;
-        }}
+        // whenCreated={(mapInstance) => {
+        //   mapRef.current = mapInstance;
+        // }}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
