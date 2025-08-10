@@ -41,8 +41,6 @@ export const TripBottomSheet: React.FC<TripBottomSheetProps> = ({
   onEditStop,
   // onCompleteStop,
   onViewAllStops,
-  onShare,
-  onFavorite,
 }) => {
   // Calculate location info from trip stops
   const getLocationInfo = () => {
@@ -159,8 +157,6 @@ export const TripBottomSheet: React.FC<TripBottomSheetProps> = ({
             distance={locationInfo.distance}
             duration={locationInfo.duration}
             isCompact={!isExpanded}
-            onShare={onShare}
-            onFavorite={onFavorite}
           />
 
           <IconButton
@@ -270,121 +266,13 @@ export const TripBottomSheet: React.FC<TripBottomSheetProps> = ({
                     ? `${(trip.stats.totalDistance / 1000).toFixed(1)} km`
                     : undefined
                 }
-                showCost={true}
-                cost={trip.stats?.estimatedCost}
               />
             </Box>
-
-            {/* Progress Overview */}
-            {trip.progress && trip.progress.totalStops > 0 && (
-              <Box
-                sx={{
-                  mb: 3,
-                  p: 2,
-                  bgcolor: "grey.50",
-                  borderRadius: 2,
-                  border: "1px solid",
-                  borderColor: "grey.200",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    mb: 1,
-                  }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ fontWeight: "bold", fontSize: 14 }}
-                  >
-                    Trip Progress
-                  </Typography>
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      color: "success.main",
-                      fontWeight: "bold",
-                      fontSize: 12,
-                    }}
-                  >
-                    {trip.progress.percentComplete.toFixed(0)}% Complete
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    width: "100%",
-                    height: 8,
-                    bgcolor: "grey.200",
-                    borderRadius: 4,
-                    overflow: "hidden",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      height: "100%",
-                      width: `${trip.progress.percentComplete}%`,
-                      bgcolor: "success.main",
-                      transition: "width 0.5s ease",
-                      borderRadius: 4,
-                    }}
-                  />
-                </Box>
-                <Typography
-                  variant="caption"
-                  color="text.secondary"
-                  sx={{ mt: 0.5, display: "block", fontSize: 11 }}
-                >
-                  {trip.progress.completedStops} of {trip.progress.totalStops}{" "}
-                  stops completed
-                </Typography>
-              </Box>
-            )}
-
-            {/* Next Stop Highlight */}
-            {trip.nextStop && (
-              <Box
-                sx={{
-                  mb: 3,
-                  p: 2,
-                  bgcolor: "primary.50",
-                  borderRadius: 2,
-                  border: "2px solid",
-                  borderColor: "primary.200",
-                }}
-              >
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    fontWeight: "bold",
-                    fontSize: 14,
-                    color: "primary.main",
-                    mb: 1,
-                  }}
-                >
-                  🎯 Next Stop
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ fontWeight: "medium", mb: 0.5 }}
-                >
-                  {trip.nextStop.name}
-                </Typography>
-                <Typography
-                  variant="caption"
-                  color="text.secondary"
-                  sx={{ fontSize: 11 }}
-                >
-                  📅 {new Date(trip.nextStop.plannedArrival).toLocaleString()}
-                </Typography>
-              </Box>
-            )}
 
             {/* Trip Stops with Enhanced Actions */}
             <TripStopsList
               stops={trip.stops}
-              maxHeight="10vh"
+              maxHeight="20vh"
               onStopClick={handleStopInteraction}
               showAddButton={true}
               onAddStop={onAddStop}

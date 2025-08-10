@@ -1,8 +1,6 @@
 import React from "react";
-import { Box, Typography, IconButton } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import ShareIcon from "@mui/icons-material/Share";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
@@ -24,8 +22,6 @@ export const TripHeader: React.FC<TripHeaderProps> = ({
   distance,
   duration,
   isCompact = false,
-  onShare,
-  onFavorite,
 }) => {
   return (
     <Box sx={{ flex: 1, mr: 2 }}>
@@ -122,59 +118,6 @@ export const TripHeader: React.FC<TripHeaderProps> = ({
           </Typography>
         </Box>
       </Box>
-
-      {/* Action Buttons - Only show in expanded mode */}
-      {!isCompact && (
-        <Box
-          sx={{
-            display: "flex",
-            gap: 1,
-            mt: 2,
-            justifyContent: "flex-start",
-          }}
-        >
-          <IconButton
-            size="small"
-            onClick={(e) => {
-              e.stopPropagation();
-              onShare?.();
-            }}
-            sx={{
-              bgcolor: "background.paper",
-              border: "1px solid",
-              borderColor: "divider",
-              boxShadow: 1,
-              "&:hover": {
-                bgcolor: "grey.50",
-                transform: "scale(1.05)",
-              },
-              transition: "all 0.2s ease",
-            }}
-          >
-            <ShareIcon fontSize="small" />
-          </IconButton>
-          <IconButton
-            size="small"
-            onClick={(e) => {
-              e.stopPropagation();
-              onFavorite?.();
-            }}
-            sx={{
-              bgcolor: "background.paper",
-              border: "1px solid",
-              borderColor: "divider",
-              boxShadow: 1,
-              "&:hover": {
-                bgcolor: "grey.50",
-                transform: "scale(1.05)",
-              },
-              transition: "all 0.2s ease",
-            }}
-          >
-            <FavoriteIcon fontSize="small" />
-          </IconButton>
-        </Box>
-      )}
     </Box>
   );
 };

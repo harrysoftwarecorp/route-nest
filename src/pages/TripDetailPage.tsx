@@ -10,7 +10,6 @@ import {
   deleteStopFromTrip,
   // updateStop,
   // addTripToItinerary,
-  shareTrip,
   markStopCompleted,
 } from "../api/tripApi";
 import type { TripDetail, Stop, AddStopRequest, MapControls } from "../types";
@@ -171,32 +170,6 @@ export const TripDetailPage: React.FC = () => {
     }
   };
 
-  const handleShare = async () => {
-    if (!tripId) return;
-
-    try {
-      const shareData = await shareTrip(tripId, {
-        makePublic: true,
-        permissions: "view",
-      });
-
-      // Copy share URL to clipboard
-      if (navigator.clipboard) {
-        await navigator.clipboard.writeText(shareData.shareUrl);
-        console.log("Share URL copied to clipboard");
-      }
-
-      console.log("Trip shared successfully:", shareData.shareUrl);
-    } catch (error) {
-      console.error("Failed to share trip:", error);
-    }
-  };
-
-  const handleFavorite = () => {
-    // TODO: Implement favorite functionality
-    console.log("Adding to favorites...");
-  };
-
   const handleCloseAddStopDialog = () => {
     setShowAddStopDialog(false);
     setClickedCoordinates(null);
@@ -290,8 +263,6 @@ export const TripDetailPage: React.FC = () => {
           onEditStop={handleEditStop}
           onCompleteStop={handleCompleteStop}
           onViewAllStops={handleViewAllStops}
-          onShare={handleShare}
-          onFavorite={handleFavorite}
         />
       </Box>
 
