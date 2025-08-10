@@ -21,6 +21,22 @@ const routes = [
       },
     ],
   },
+  // New enhanced trip detail page route
+  {
+    path: "/trip-detail/:tripId",
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: <TripDetailPage />,
+      },
+    ],
+  },
+  // Test route for the new trip detail page
+  {
+    path: "/test-trip-detail",
+    element: <TripDetailPage />,
+  },
   {
     path: "/test-map",
     element: <TripDetailPage />,

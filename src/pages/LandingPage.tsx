@@ -20,6 +20,7 @@ import AddIcon from "@mui/icons-material/Add";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { createTripLegacy, deleteTripById, getTrips } from "../api/tripApi";
 import type { TripSummary } from "../types";
+import { useNavigate } from "react-router-dom";
 
 export const tripLoader = async () => {
   try {
@@ -38,6 +39,7 @@ const LandingPage: React.FC = () => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const initialTrips = useLoaderData() as TripSummary[];
   const [trips, setTrips] = useState<TripSummary[]>(initialTrips || []);
+  const navigate = useNavigate();
 
   const handleCreate = async () => {
     if (!newTripName.trim()) return;
@@ -71,6 +73,11 @@ const LandingPage: React.FC = () => {
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("vi-VN").format(amount) + " VND";
+  };
+
+  // Navigate to TripDetailPage instead of TripPage
+  const handleCardClick = (tripId) => {
+    navigate(`/trip-detail/${tripId}`);
   };
 
   return (
@@ -223,6 +230,7 @@ const LandingPage: React.FC = () => {
                           boxShadow: 3,
                         },
                       }}
+                      onClick={() => handleCardClick(trip._id)}
                     >
                       <CardMedia
                         component="img"

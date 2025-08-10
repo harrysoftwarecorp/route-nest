@@ -53,6 +53,11 @@ export const TripCard: React.FC<TripCardProps> = ({
     return `${distance} m`;
   };
 
+  // Navigate to TripDetailPage instead of TripPage
+  const handleCardClick = () => {
+    navigate(`/trip-detail/${trip._id}`);
+  };
+
   return (
     <Card
       sx={{
@@ -69,7 +74,7 @@ export const TripCard: React.FC<TripCardProps> = ({
           boxShadow: 3,
         },
       }}
-      onClick={() => navigate(`/trip/${trip._id}`)}
+      onClick={handleCardClick}
     >
       <CardMedia
         component="img"

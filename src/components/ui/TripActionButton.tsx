@@ -1,85 +1,58 @@
 import React from "react";
-import { Button, CircularProgress, Box } from "@mui/material";
+import { Button, type ButtonProps } from "@mui/material";
 
-interface TripActionButtonProps {
+interface TripActionButtonProps extends Omit<ButtonProps, "onClick"> {
   label: string;
   onClick: () => void;
-  variant?: "contained" | "outlined" | "text";
-  color?: "primary" | "secondary" | "success" | "error" | "info" | "warning";
+  icon?: React.ReactNode;
   loading?: boolean;
-  disabled?: boolean;
-  fullWidth?: boolean;
-  startIcon?: React.ReactNode;
-  endIcon?: React.ReactNode;
-  size?: "small" | "medium" | "large";
 }
 
 export const TripActionButton: React.FC<TripActionButtonProps> = ({
   label,
   onClick,
+  icon,
+  loading = false,
   variant = "contained",
   color = "primary",
-  loading = false,
-  disabled = false,
-  fullWidth = true,
-  startIcon,
-  endIcon,
   size = "large",
+  fullWidth = true,
+  sx,
+  ...props
 }) => {
   return (
     <Button
       variant={variant}
       color={color}
-      fullWidth={fullWidth}
       size={size}
+      fullWidth={fullWidth}
       onClick={onClick}
-      disabled={disabled || loading}
-      startIcon={loading ? undefined : startIcon}
-      endIcon={loading ? undefined : endIcon}
+      disabled={loading}
+      startIcon={icon}
       sx={{
-        borderRadius: 2,
-        py: size === "large" ? 1.5 : size === "medium" ? 1.2 : 1,
-        textTransform: "none",
-        fontSize: size === "large" ? 16 : size === "medium" ? 14 : 12,
+        py: 1.5,
+        px: 3,
+        fontSize: 16,
         fontWeight: "bold",
-        position: "relative",
-        transition: "all 0.2s ease",
+        borderRadius: 2,
+        textTransform: "none",
+        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
         "&:hover": {
-          transform: disabled || loading ? "none" : "translateY(-1px)",
-          boxShadow: disabled || loading ? "none" : 3,
+          transform: "translateY(-2px)",
+          boxShadow: 3,
         },
         "&:active": {
-          transform: disabled || loading ? "none" : "translateY(0)",
+          transform: "translateY(0)",
         },
+        "&:disabled": {
+          opacity: 0.6,
+          transform: "none",
+        },
+        ...sx,
       }}
+      {...props}
     >
-      {loading && (
-        <Box
-          sx={{
-            position: "absolute",
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <CircularProgress
-            size={20}
-            color="inherit"
-            sx={{
-              color: variant === "contained" ? "white" : color + ".main",
-            }}
-          />
-        </Box>
-      )}
-
-      <Box
-        sx={{
-          opacity: loading ? 0 : 1,
-          transition: "opacity 0.2s ease",
-        }}
-      >
-        {label}
-      </Box>
+      {loading ? "Loading..." : label}
     </Button>
   );
 };
