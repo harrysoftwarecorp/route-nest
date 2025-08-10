@@ -384,7 +384,7 @@ export const TripBottomSheet: React.FC<TripBottomSheetProps> = ({
             {/* Trip Stops with Enhanced Actions */}
             <TripStopsList
               stops={trip.stops}
-              maxHeight="35vh"
+              maxHeight="10vh"
               onStopClick={handleStopInteraction}
               showAddButton={true}
               onAddStop={onAddStop}

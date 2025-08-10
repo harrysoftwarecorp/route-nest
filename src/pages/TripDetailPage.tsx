@@ -68,7 +68,9 @@ export const TripDetailPage: React.FC = () => {
   };
 
   const handleMapReady = (controls: MapControls) => {
-    setMapControls(controls);
+    if (!mapControls) {
+      setMapControls(controls);
+    }
   };
 
   const handleStopClick = (stop: Stop) => {
@@ -257,7 +259,7 @@ export const TripDetailPage: React.FC = () => {
         {/* Full-Screen Interactive Map */}
         <TripMapView
           trip={trip}
-          height="100vh"
+          height="75vh"
           showControls={true}
           center={
             selectedStop

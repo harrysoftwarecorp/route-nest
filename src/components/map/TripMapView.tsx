@@ -290,7 +290,8 @@ export const TripMapView: React.FC<TripMapViewProps> = ({
       </MapContainer>
 
       {/* Map Overlay Info */}
-      {trip.stats && (
+      {/*
+      trip.stats && (
         <Box
           sx={{
             position: "absolute",
@@ -343,8 +344,10 @@ export const TripMapView: React.FC<TripMapViewProps> = ({
           </Box>
         </Box>
       )}
+        */}
 
       {/* Progress Bar */}
+      {/*
       {trip.progress && trip.progress.totalStops > 0 && (
         <Box
           sx={{
@@ -414,6 +417,7 @@ export const TripMapView: React.FC<TripMapViewProps> = ({
           </Box>
         </Box>
       )}
+        */}
 
       {/* Add Stop Helper Text */}
       {onMapClick && (
